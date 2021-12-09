@@ -1,6 +1,6 @@
 # Gobigger-Explore
 ## :crystal_ball: GoBigger Challenge 2021 Baseline
-[en]()/[中文]()
+[en](https://github.com/opendilab/Gobigger-Explore/blob/main/README.md)/[中文](https://github.com/opendilab/Gobigger-Explore/blob/main/README_zh.md)
 
 ## :robot: Introduction
 This is the baseline of GoBigger Multi-Agent Decision Intelligence [Challenge](https://www.datafountain.cn/competitions/549) in 2021. The baseline is based on [OpenDILab](https://github.com/opendilab/DI-engine) and aims to provide a simple entry-level method. Participants can build agents by extending the baseline method provided. In addition, Opendilab's modular structure allows participants to easily get started, and it provides a wealth of reinforcement learning algorithms for participants to use. This baseline is a good starting point, especially for entry-level researchers who are familiar with multi-agent decision AI problems.
@@ -22,7 +22,7 @@ The current version is the latest version v-0.2.0.
    - Memory 50G
 2. Baseline Config
    
-   - The default config is the [config]() used in this experiment. Participants can modify it according to the system environment.
+   - The default config is the [config](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/config/gobigger_no_spatial_config.py) used in this experiment. Participants can modify it according to the system environment.
    - The size of replay_buffer_size needs to be set according to the size of RAM.
    - The size of batch_size needs to be set according to the size of the GPU memory.
    
@@ -42,7 +42,7 @@ The current version is the latest version v-0.2.0.
 4. Start training
 ```
     # Download baseline
-    git clone url
+    git clone https://github.com/opendilab/Gobigger-Explore.git
     cd my_submission/entry/
     python gobigger_vsbot_baseline_main.py
 ```
@@ -60,7 +60,6 @@ We released training log information, checkpoints, and evaluation videos. Below 
 
 
 ## :heart_eyes: Resources
-If you like what you see, please consider giving this a star (★)!
 - [Challenge Page Link](https://www.datafountain.cn/competitions/549)
 - Challenge Repo [Github Link](https://github.com/opendilab/GoBigger-Challenge-2021)
 - DI-engine Repo [Github Link](https://github.com/opendilab/DI-engine)
