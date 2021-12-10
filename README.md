@@ -7,12 +7,16 @@ This is the baseline of GoBigger Multi-Agent Decision Intelligence [Challenge](h
 
 ## :rocket: Release Version
 The current version is the latest version v-0.2.0.
-1. Version-0.2.0
+1. What needs to be optimized in the future
+   - Variable length features lead to potential GPU memory explosion risk.
+   - Better reward function design.
+2. Version-0.2.0
    - Fix the ckpt bug to improve the accuracy of the evaluator.
-   - Fix replay_buffer bug.
-2. Version-0.1.0
+   - Fix replay_buffer bug
    - Brand new feature engineering to improve convergence speed.
    - Replay_buffer stores variable-length features to improve data utilization and training speed.
+3. Version-0.1.0
+   - [Primary version link](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
 
 ## :point_down: Getting Started
 
@@ -55,14 +59,15 @@ The current version is the latest version v-0.2.0.
 
 ## :dart: Result
 We released training log information, checkpoints, and evaluation videos. Below is the download link,
-   - Baidu Netdisk
-   - Google Drive
+   - Baidu Netdisk [Link](https://pan.baidu.com/s/11sBoLWBEN33iNycs8y7fsw)
+      - Extraction code: u4i6
+   - Google Drive [Link](https://drive.google.com/file/d/1uEr2ikzquUVQgfWh3-Pa7t_ubKdgxWpC/view?usp=sharing)
 
 
 ## :heart_eyes: Resources
-- [Challenge Page Link](https://www.datafountain.cn/competitions/549)
-- Challenge Repo [Github Link](https://github.com/opendilab/GoBigger-Challenge-2021)
-- DI-engine Repo [Github Link](https://github.com/opendilab/DI-engine)
-- GoBigger Repo [Github Link](https://github.com/opendilab/GoBigger)
+   - [Challenge Page Link](https://www.datafountain.cn/competitions/549)
+   - Challenge Repo [Github Link](https://github.com/opendilab/GoBigger-Challenge-2021)
+   - DI-engine Repo [Github Link](https://github.com/opendilab/DI-engine)
+   - GoBigger Repo [Github Link](https://github.com/opendilab/GoBigger)
 
 

@@ -5,15 +5,18 @@
 ## :robot: 介绍
 这是2021年GoBigger Multi-Agent Decision Intelligence [Challenge](https://www.datafountain.cn/competitions/549)的基线。基线基于[OpenDILab](https://github.com/opendilab/DI-engine)并旨在提供一种简单的入门级方法。参赛选手可以通过扩展提供的基线方法来构建智能体。此外，OpenDILab的模块化结构让参与者可以轻松读懂代码，并且提供了丰富的强化学习算法供参与者使用。对于熟悉多智能体决策AI问题的入门级研究人员来说，这个基线具有较好的指导意义。
 
-## :rocket: Release Version
-当前版本为最新的版本v-0.2.0.
-1. Version-0.2.0
-   - 修复ckpt bug, 提升evaluator评估器的准确性
+## :rocket: 发布版本
+当前版本为最新的版本v-0.2.0。
+1. 未来版本预告
+   - 不定长的特征存在潜在的显存爆炸风险。
+   - 更好的奖励函数设计。
+2. Version-0.2.0
+   - 修复ckpt bug, 提升evaluator评估器的准确性。
    - 修复replay_buffer bug。
-2. Version-0.1.0
    - 全新的特征工程，提升收敛速度。
    - replay_buffer存放不定长特征，提升数据利用率及训练速度。
-
+3. Version-0.1.0
+   - [version-0.1.0版本链接](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
 ## :point_down: 让我们开始吧
 
 1. 实验环境
@@ -55,13 +58,14 @@
 
 ## :dart: 实验结果
 我们开源了训练的log信息，检查点文件以及评估的视频。链接如下，
-   - [百度云盘链接]()
-   - [谷歌云盘]()
+   - 百度云盘[链接](https://pan.baidu.com/s/11sBoLWBEN33iNycs8y7fsw)
+      - 提取码: u4i6
+   - 谷歌云盘[链接](https://drive.google.com/file/d/1uEr2ikzquUVQgfWh3-Pa7t_ubKdgxWpC/view?usp=sharing)
 
 ## :heart_eyes: 相关资源链接
-- [比赛主页链接](https://www.datafountain.cn/competitions/549)
-- Challenge Repo [github链接](https://github.com/opendilab/GoBigger-Challenge-2021)
-- DI-engine Repo [github链接](https://github.com/opendilab/DI-engine)
-- GoBigger Repo  [github链接](https://github.com/opendilab/GoBigger)
+   - [比赛主页链接](https://www.datafountain.cn/competitions/549)
+   - Challenge Repo [github链接](https://github.com/opendilab/GoBigger-Challenge-2021)
+   - DI-engine Repo [github链接](https://github.com/opendilab/DI-engine)
+   - GoBigger Repo  [github链接](https://github.com/opendilab/GoBigger)
 
 
