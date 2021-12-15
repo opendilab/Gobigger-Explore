@@ -29,9 +29,9 @@ The current version is the latest version v-0.2.0.
 ## :point_down: Getting Started
 
 1. System environment
-   - Core 16
-   - GPU A100(40G)
-   - Memory 50G
+   - Core 8
+   - GPU 1080Ti(11G) or 1060(6G)
+   - Memory 40G
 2. Baseline Config
    
    - The default config is the [config](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/config/gobigger_no_spatial_config.py) used in this experiment. Participants can modify it according to the system environment.
