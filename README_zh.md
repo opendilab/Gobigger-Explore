@@ -17,6 +17,14 @@
    - replay_buffer存放不定长特征，提升数据利用率及训练速度。
 3. Version-0.1.0
    - [version-0.1.0版本链接](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
+4. 与Bot对打的胜率
+   - Version-0.2.0 基于规则的Bot位于[Gobigger](https://github.com/opendilab/GoBigger/blob/main/gobigger/agents/bot_agent.py)。
+   ![avatar](./avatar/v-0-2-0.jpg)
+5. 版本对比
+   - Version-0.2.0 VS Version-0.1.0
+      - 由图可知,相同的step数目,Version-0.2.0速度提升了4倍，且收敛性更好。
+   ![avatar](./avatar/v020-v010-tb.png)
+   ![avatar](./avatar/v020-v010-label.png)
 ## :point_down: 让我们开始吧
 
 1. 实验环境
@@ -60,7 +68,7 @@
 我们开源了训练的log信息，检查点文件以及评估的视频。链接如下，
    - 百度云盘[链接](https://pan.baidu.com/s/11sBoLWBEN33iNycs8y7fsw)
       - 提取码: u4i6
-   - 谷歌云盘[链接](https://drive.google.com/file/d/1uEr2ikzquUVQgfWh3-Pa7t_ubKdgxWpC/view?usp=sharing)
+   - 谷歌云盘[链接]()
 
 ## :heart_eyes: 相关资源链接
    - [比赛主页链接](https://www.datafountain.cn/competitions/549)

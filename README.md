@@ -17,7 +17,15 @@ The current version is the latest version v-0.2.0.
    - Replay_buffer stores variable-length features to improve data utilization and training speed.
 3. Version-0.1.0
    - [Primary version link](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
-
+4. Win Rate VS Bot
+   - Version-0.2.0  VS Rule based bot in [Gobigger](https://github.com/opendilab/GoBigger/blob/main/gobigger/agents/bot_agent.py).
+   ![avatar](./avatar/v-0-2-0.jpg)
+5. Version comparison
+   - Version-0.2.0 VS Version-0.1.0
+      - It can be seen from the figure that with the same number of steps, the speed of Version-0.2.0 is increased by 4 times, and the convergence is better.
+   ![avatar](./avatar/v020-v010-tb.png)
+   ![avatar](./avatar/v020-v010-label.png)
+   
 ## :point_down: Getting Started
 
 1. System environment
@@ -61,7 +69,7 @@ The current version is the latest version v-0.2.0.
 We released training log information, checkpoints, and evaluation videos. Below is the download link,
    - Baidu Netdisk [Link](https://pan.baidu.com/s/11sBoLWBEN33iNycs8y7fsw)
       - Extraction code: u4i6
-   - Google Drive [Link](https://drive.google.com/file/d/1uEr2ikzquUVQgfWh3-Pa7t_ubKdgxWpC/view?usp=sharing)
+   - Google Drive [Link]()
 
 
 ## :heart_eyes: Resources
