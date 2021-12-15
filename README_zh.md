@@ -28,9 +28,9 @@
 ## :point_down: 让我们开始吧
 
 1. 实验环境
-   - CPU核心数 Core 16
-   - GPU显卡 A100(40G)
-   - Memory内存 50G
+   - CPU核心数 Core 8
+   - GPU显卡 1080Ti(11G) or 1060(6G)
+   - Memory内存 40G
 2. 基线参数
    
    - 默认的参数[config](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/config/gobigger_no_spatial_config.py)即仓库中开源的参数。参赛选手需根据自己的实验环境配置进行修改。
