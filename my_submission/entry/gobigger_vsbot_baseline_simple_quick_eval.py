@@ -44,13 +44,13 @@ def main(cfg, ckpt_path, seed=0):
 
     # Evaluator Setting 
     cfg.exp_name = 'gobigger_vsbot_eval'
-    cfg.env.spatial = True  # necessary
-    cfg.env.evaluator_env_num = 3
-    cfg.env.n_evaluator_episode = 3
+    cfg.env.spatial = True
+    cfg.env.evaluator_env_num = 1
+    cfg.env.n_evaluator_episode = 1
 
     cfg = compile_config(
         cfg,
-        BaseEnvManager,
+        SyncSubprocessEnvManager,
         DQNPolicy,
         BaseLearner,
         BattleSampleSerialCollector,
@@ -65,14 +65,10 @@ def main(cfg, ckpt_path, seed=0):
     for i in range(evaluator_env_num):
         rule_env_cfg = copy.deepcopy(cfg.env)
         rule_env_cfg.train = False
-        rule_env_cfg.save_video = True
-        rule_env_cfg.save_quality = 'low'
-        rule_env_cfg.save_path = './{}/rule'.format(cfg.exp_name)
-        if not os.path.exists(rule_env_cfg.save_path):
-            os.makedirs(rule_env_cfg.save_path)
+        rule_env_cfg.save_video = False
         rule_env_cfgs.append(rule_env_cfg)
 
-    rule_evaluator_env = BaseEnvManager(
+    rule_evaluator_env = SyncSubprocessEnvManager(
         env_fn=[lambda: GoBiggerSimpleEnv(x) for x in rule_env_cfgs], cfg=cfg.env.manager
     )
 
@@ -99,5 +95,6 @@ def main(cfg, ckpt_path, seed=0):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='evaluation')
     parser.add_argument('--ckpt', '-c', help='checkpoint for evaluation')
+
     args = parser.parse_args()
     main(main_config, ckpt_path = args.ckpt)

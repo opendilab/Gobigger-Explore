@@ -251,7 +251,19 @@ class GoBiggerEnv(BaseEnv):
         if done:
             for i in range(self._team_num):
                 info[i]['final_eval_reward'] = self._final_eval_reward[i]
+                info[i]['leaderboard'] = self._last_team_size
+            leaderboard = self._last_team_size
+            leaderboard_sorted = sorted(leaderboard.items(), key=lambda x: x[1], reverse=True)
+            win_rate = self.win_rate(leaderboard_sorted)
+            #print('win_rate:{:.3f}, leaderboard_sorted:{}'.format(win_rate, leaderboard_sorted))
         return BaseEnvTimestep(obs, rew, done, info)
+
+    def win_rate(self, leaderboard_sorted):
+        # only adapt player_per_team >1
+        for index, (x,y) in enumerate(leaderboard_sorted):
+            if x == '0':
+                prob = 1/(len(leaderboard_sorted)-1)
+                return prob * (len(leaderboard_sorted) - index -1)
 
     def info(self) -> BaseEnvInfo:
         T = EnvElementInfo

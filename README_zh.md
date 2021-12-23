@@ -13,8 +13,41 @@
 2. Version-0.2.0
    - 修复ckpt bug, 提升evaluator评估器的准确性。
    - 修复replay_buffer bug。
-   - 全新的特征工程，提升收敛速度。
    - replay_buffer存放不定长特征，提升数据利用率及训练速度。
+   - 全新的特征工程以及网络结构,提升收敛速度。
+      - Scalar Encoder 
+        ![avatar](./avatar/scalar.svg)
+        - 默认左上角为坐标原点。
+        - 图中红色矩形为全局视野，绿色矩形为局部视野。
+   
+      - Food Encoder
+         - 为方便计算，面积计算采用半径的平方,省去常数项。
+         - food map将局部视野进行切分为h*w个小格子,每个小格子的大小为16\*16。
+         - food map[0,:,:]表示落在每个小格子中food的累积面积。
+         - food map[1,:,:]表示落在每个小格子中当前id的clone ball的累积面积。
+         - food grid将局部视野进行切分为h\*w个小格子,每个小格子的大小为8*8。
+         - food grid表示每个小格子中food相对于所属格子的左上角的偏移量以及food的半径。
+         - food relation 的维度是[len(clone),7\*7+1,3]。其中[:,7\*7,3]表示
+         示每个clone ball的7*7网格邻域中food的信息，包括偏移量以及网格中food面积平方和。因为覆盖率很低，在这里做了一个近似，food的位置信息以最后一个为准。[len(clone):,1,3]表示每个clone ball自身的偏移量以及面积。
+      - Clone Encoder
+         - 对clone ball进行编码，包括位置、半径、玩家名称的one-hot编码以及clone ball的速度编码。 
+      - Relation Encoder
+         - ball_1 与ball_2 的相对位置大小关系,(x1-x2,y1-y2)。
+         - ball_1 与ball_2 的距离,即o1与o2之间的距离dis。
+         - ball_1 与ball_2 的碰撞是一个球的圆心出现在另一个球中，即发生碰撞。
+         - ball_1 与ball_2 是否相互碰撞,即一个球的圆弧与另一个球圆心之间的距离。
+         - ball_1 与ball_2 分裂后相互碰撞，即分裂后最远的分裂球的圆弧与另一个球圆心之间的距离。
+         - ball_1 与ball_2 吃与被吃关系，即两球之间的半径大小关系。
+         - ball_1 与ball_2 分裂后吃与被吃关系，即分裂后两球之间的半径大小关系。
+         - ball_1 与ball_2 各自的半径做映射, 分别为m\*n个r1 和m\*n个r2, m表示ball_1的数量，n表示ball_2的数量。 
+         ![avatar](./avatar/relation.svg)
+      - Model
+          - mask的作用，记录padding后的有效信息。需结合代码理解更佳。 
+          - Baseline中的model设计并不是最好的，选手可以尽情脑洞！
+          ![avatar](./avatar/model.svg)
+
+   
+    
 3. Version-0.1.0
    - [version-0.1.0版本链接](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
 4. 与Bot对打的胜率
