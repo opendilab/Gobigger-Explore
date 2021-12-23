@@ -13,8 +13,37 @@ The current version is the latest version v-0.2.0.
 2. Version-0.2.0
    - Fix the ckpt bug to improve the accuracy of the evaluator.
    - Fix replay_buffer bug
-   - Brand new feature engineering to improve convergence speed.
    - Replay_buffer stores variable-length features to improve data utilization and training speed.
+   - Brand new feature engineering to improve convergence speed.
+      - Scalar Encoder 
+        ![avatar](./avatar/scalar.svg)
+        - The default upper left corner is the origin of the coordinates.
+        - The red rectangle in the figure is the global field of view, and the green rectangle is the local field of view.
+   
+      - Food Encoder
+         - For the convenience of calculation, the area of ball uses the square of the radius, omitting the constant term.
+         - The food map divides the local field of vision into h\*w small grids, and the size of each small grid is 16\*16.
+         - food map[0,:,:] represents the sum of the area of all food in each small grid。
+         - food map[1,:,:] represents the sum of the area of the clone ball of a certain id in each small grid.
+         - The food grid divides the local field of vision into h\*w small grids, and the size of each small grid is 8\*8.
+         - The food grid represents the offset of the food in each small grid relative to the upper left corner of the grid and the radius of the food.
+         - The dimension of the food relation is [len(clone),7\*7+1,3]. Where [:,7\*7,3] represents the food information in the 7\*7 grid neighborhood of each clone ball, including the offset and the sum of the squares of the food area in the grid. Because the coverage rate is very low, an approximation is made here, and the location information of food is subject to the last one. [len(clone):,1,3] represents the offset and area of each clone ball.
+      - Clone Encoder
+         - Encode the clone ball, including the position, radius, one-hot encoding of the player name, and the speed encoding of the clone ball. 
+      - Relation Encoder
+         - The relative position relationship between ball_1 and ball_2,(x1-x2,y1-y2).
+         - The distance between ball_1 and ball_2.
+         - The collision of ball_1 and ball_2 is that the center of a ball appears in another ball.
+         - Whether ball_1 and ball_2 collide with each other, that is, the distance between the arc of one ball and the center of the other ball.
+         - Whether ball_1 and ball_2 collide with each other after splitting, that is, the distance between the arc of the farthest split ball and the center of the other ball.
+         - The relationship between eating and being eaten is the relationship between the radius of the two balls.
+         - The relationship between eating and being eaten is the relationship between the radius of the two balls after splitting.
+         - The relationship between the radius of the two balls. And ball_1 and ball_2 are mapped to m\*n r1 and m\*n r2 respectively, where m represents the number of ball_1's clone ball, and n represents the number of ball_2's clone ball. 
+         ![avatar](./avatar/relation.svg)
+      - Model
+          - The role of the mask is to record the effective information after padding. Need to combine code to understand better.
+          - The model design in Baseline is not the best, players just enjoy it!
+          ![avatar](./avatar/model.svg)
 3. Version-0.1.0
    - [Primary version link](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
 4. Win Rate VS Bot

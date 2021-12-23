@@ -40,6 +40,8 @@ gobigger_config = dict(
             target_theta=0.005,
             discount_factor=0.99,
             ignore_done=False,
+            learner=dict(
+                hook=dict(save_ckpt_after_iter=1000)),
         ),
         collect=dict(n_sample=512, unroll_len=1, alpha=1.0),
         eval=dict(evaluator=dict(eval_freq=1000,)),

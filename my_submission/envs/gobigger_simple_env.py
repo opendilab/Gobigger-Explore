@@ -44,6 +44,7 @@ class GoBiggerSimpleEnv(GoBiggerEnv):
         return unit_id(unit_player, unit_team, ego_player, ego_team, team_size)
 
     def _obs_transform(self, obs: tuple) -> list:
+        player_bot_obs = copy.deepcopy(obs)
         global_state, player_state = obs
         player_state = OrderedDict(player_state)
         # global
@@ -54,7 +55,6 @@ class GoBiggerSimpleEnv(GoBiggerEnv):
 
         # player
         obs = []
-        collate_ignore_raw_obs = []
         for n, value in player_state.items():
             # scalar feat
             # get margin
@@ -98,7 +98,7 @@ class GoBiggerSimpleEnv(GoBiggerEnv):
                 'thorn_relation': thorn_relation.astype(np.float32),
                 'clone': clone.astype(np.float32),
                 'clone_relation': clone_relation.astype(np.float32),
-                'collate_ignore_raw_obs': {'overlap': overlap},
+                'collate_ignore_raw_obs': {'overlap': overlap,'player_bot_obs':player_bot_obs},
             }
             obs.append(player_obs)
 
@@ -106,6 +106,41 @@ class GoBiggerSimpleEnv(GoBiggerEnv):
         for i in range(self._team_num):
             team_obs.append(team_obs_stack(obs[i * self._player_num_per_team: (i + 1) * self._player_num_per_team]))
         return team_obs
+    
+    def info(self) -> BaseEnvInfo:
+        T = EnvElementInfo
+        return BaseEnvInfo(
+            agent_num=self._player_num,
+            obs_space=T(
+                {
+                    'scalar': (5, ),
+                    'food': (2, ),
+                },
+                {
+                    'min': 0,
+                    'max': 1,
+                    'dtype': np.float32,
+                },
+            ),
+            # [min, max)
+            act_space=T(
+                (1, ),
+                {
+                    'min': 0,
+                    'max': 16,
+                    'dtype': int,
+                },
+            ),
+            rew_space=T(
+                (1, ),
+                {
+                    'min': -1000.0,
+                    'max': 1000.0,
+                    'dtype': np.float32,
+                },
+            ),
+            use_wrappers=None,
+        )
 
 
 
@@ -143,22 +178,22 @@ def food_encode(clone, food, left_top_x, left_top_y, right_bottom_x, right_botto
     for p in food:
         x = min(max(p[0], left_top_x), right_bottom_x) - left_top_x
         y = min(max(p[1], left_top_y), right_bottom_y) - left_top_y
-        r = p[2]
+        radius = p[2]
         # encode food density map
         i, j = int(y // 16), int(x // 16)
-        food_map[0, i, j] += r * r
+        food_map[0, i, j] += radius * radius
         # encode food fine grid
         i, j = int(y // 8), int(x // 8)
-        food_grid[i][j].append([(x - 8 * j) / 8, (y - 8 * i) / 8, r])
+        food_grid[i][j].append([(x - 8 * j) / 8, (y - 8 * i) / 8, radius])
 
     for c_id, p in enumerate(clone):
         x = min(max(p[0], left_top_x), right_bottom_x) - left_top_x
         y = min(max(p[1], left_top_y), right_bottom_y) - left_top_y
-        r = p[2]
+        radius = p[2]
         # encode food density map
         i, j = int(y // 16), int(x // 16)
         if int(p[3]) == team_id and int(p[4]) == player_id:
-            food_map[1, i, j] += r * r
+            food_map[1, i, j] += radius * radius
         # encode food fine grid
         i, j = int(y // 8), int(x // 8)
         t, b, l, r = max(i - 3, 0), min(i + 4, h_), max(j - 3, 0), min(j + 4, w_)
@@ -171,7 +206,7 @@ def food_encode(clone, food, left_top_x, left_top_y, right_bottom_x, right_botto
 
         food_relation[c_id][-1][0] = (x - j * 8) / 8
         food_relation[c_id][-1][1] = (y - i * 8) / 8
-        food_relation[c_id][-1][2] = r / 10
+        food_relation[c_id][-1][2] = radius / 10
 
     food_map[0, :, :] = np.sqrt(food_map[0, :, :]) / 2    #food
     food_map[1, :, :] = np.sqrt(food_map[1, :, :]) / 10   #cur clone
@@ -184,13 +219,14 @@ def clone_encode(clone, speed=False):
     rds = clone[:, 2:3] / 10
     ids = np.zeros((len(clone), 12))
     ids[np.arange(len(clone)), (clone[:, -2] * 3 + clone[:, -1]).astype(np.int64)] = 1.0
-    slpit = (clone[:, 2:3] - 10) / 10
+    split = (clone[:, 2:3] - 10) / 10
+
     eject = (clone[:, 2:3] - 10) / 10
     if not speed:
-        clone = np.concatenate([pos, rds, ids, slpit, eject], axis=1)
+        clone = np.concatenate([pos, rds, ids, split, eject], axis=1)  # dim = 17
     else:
         spd = clone[:, 3:5] / 60
-        clone = np.concatenate([pos, rds, ids, slpit, eject, spd], axis=1)
+        clone = np.concatenate([pos, rds, ids, split, eject, spd], axis=1)
     return clone
 
 def relation_encode(point_1, point_2):
@@ -203,7 +239,7 @@ def relation_encode(point_1, point_2):
     rds_rlt_1 = point_1[:,None,2:3] - point_2[None,:,2:3] # whether source can eat target
     rds_rlt_2 = np.sqrt(0.5) * point_1[:,None,2:3] - point_2[None,:,2:3] # whether source's split can eat target
     rds_rlt_3 = np.sqrt(0.5) * point_2[None,:,2:3] - point_1[:,None,2:3] # whether target's split can eat source
-    rds_rlt_4 = point_1[:,None,2:3].repeat(len(point_2), axis=1) # target radius
+    rds_rlt_4 = point_1[:,None,2:3].repeat(len(point_2), axis=1) # source radius
     rds_rlt_5 = point_2[None,:,2:3].repeat(len(point_1), axis=0) # target radius
     relation = np.concatenate([pos_rlt_1 / 100, pos_rlt_2 / 100, pos_rlt_3 / 100, pos_rlt_4 / 100, pos_rlt_5 / 100, pos_rlt_6 / 100, rds_rlt_1 / 10, rds_rlt_2 / 10, rds_rlt_3 / 10, rds_rlt_4 / 10, rds_rlt_5 / 10], axis=2)
     return relation

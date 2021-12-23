@@ -24,9 +24,8 @@ def gobigger_collate(data):
     thorn_num = max([x.shape[1] for x in data['thorn_relation']])
     food_h = max([x.shape[1] for x in data['food']])
     food_w = max([x.shape[2] for x in data['food']])
-    data['scalar'] = torch.stack([torch.as_tensor(x) for x in data['scalar']]).float()
-    # data['action_space'] = torch.stack([torch.as_tensor(x) for x in data['action_space']]).float()
-    data['food'] = torch.stack([F.pad(torch.as_tensor(x), (0, food_w - x.shape[2], 0, food_h - x.shape[1])) for x in data['food']]).float()
+    data['scalar'] = torch.stack([torch.as_tensor(x) for x in data['scalar']]).float() # [B*player_num_per_team,5]
+    data['food'] = torch.stack([F.pad(torch.as_tensor(x), (0, food_w - x.shape[2], 0, food_h - x.shape[1])) for x in data['food']]).float() 
     data['food_relation'] = torch.stack([F.pad(torch.as_tensor(x), (0, 0, 0, clone_num - x.shape[0])) for x in data['food_relation']]).float()
     data['thorn_mask'] = torch.stack([torch.arange(thorn_num) < x.shape[1] for x in data['thorn_relation']]).float()
     data['thorn_relation'] = torch.stack([F.pad(torch.as_tensor(x), (0, 0, 0, thorn_num - x.shape[1], 0, clone_num - x.shape[0])) for x in data['thorn_relation']]).float()
