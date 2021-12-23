@@ -40,7 +40,7 @@
          - ball_1 与ball_2 吃与被吃关系，即两球之间的半径大小关系。
          - ball_1 与ball_2 分裂后吃与被吃关系，即分裂后两球之间的半径大小关系。
          - ball_1 与ball_2 各自的半径做映射, 分别为m\*n个r1 和m\*n个r2, m表示ball_1的数量，n表示ball_2的数量。 
-         ![avatar](./avatar/relation.svg)
+         ![avatar](./avatar/relation_zh.svg)
       - Model
           - mask的作用，记录padding后的有效信息。需结合代码理解更佳。 
           - Baseline中的model设计并不是最好的，选手可以尽情脑洞！
