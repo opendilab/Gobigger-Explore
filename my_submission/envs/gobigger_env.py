@@ -58,7 +58,7 @@ class GoBiggerEnv(BaseEnv):
 
     def _launch_game(self) -> Server:
         server = Server(self._cfg)
-        server.start()
+        server.reset()
         render = EnvRender(server.map_width, server.map_height)
         server.set_render(render)
         self._player_names = sum(server.get_player_names_with_team(), [])
