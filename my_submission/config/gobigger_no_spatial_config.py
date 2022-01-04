@@ -3,18 +3,18 @@ from easydict import EasyDict
 gobigger_config = dict(
     exp_name='gobigger_baseline_v030',
     env=dict(
-        collector_env_num=8,
-        evaluator_env_num=3, 
+        collector_env_num=32,
+        evaluator_env_num=3,
         n_evaluator_episode=3,
         stop_value=1e10,
         team_num=4,
         player_num_per_team=3,
-        match_time=60*10,
+        match_time=60 * 10,
         map_height=1000,
         map_width=1000,
         spatial=False,
-        speed = False,
-        all_vision = False,
+        speed=False,
+        all_vision=False,
         manager=dict(shared_memory=False, ),
     ),
     policy=dict(
@@ -40,11 +40,10 @@ gobigger_config = dict(
             target_theta=0.005,
             discount_factor=0.99,
             ignore_done=False,
-            learner=dict(
-                hook=dict(save_ckpt_after_iter=1000)),
+            learner=dict(hook=dict(save_ckpt_after_iter=1000)),
         ),
         collect=dict(n_sample=512, unroll_len=1, alpha=1.0),
-        eval=dict(evaluator=dict(eval_freq=1000,)),
+        eval=dict(evaluator=dict(eval_freq=1000, )),
         other=dict(
             eps=dict(
                 type='exp',
