@@ -3,7 +3,7 @@ from easydict import EasyDict
 gobigger_config = dict(
     exp_name='gobigger_baseline_v030',
     env=dict(
-        collector_env_num=24,
+        collector_env_num=16,
         evaluator_env_num=3,
         n_evaluator_episode=3,
         stop_value=1e10,
@@ -51,7 +51,7 @@ gobigger_config = dict(
                 end=0.5,
                 decay=100000,
             ),
-            replay_buffer=dict(replay_buffer_size=20000, priority=True),
+            replay_buffer=dict(replay_buffer_size=50000, ),
         ),
     ),
 )
