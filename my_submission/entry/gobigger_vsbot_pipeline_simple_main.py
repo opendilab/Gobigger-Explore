@@ -218,7 +218,7 @@ def main(seed=0, max_iterations=int(1e10)):
                                 policy=policy,
                                 save_ckpt_fn=learner.save_checkpoint,
                                 seed=seed))
-        if task.match_lables(["standalone", "node.0"]):
+        if task.match_labels(["standalone", "node.0"]):
             task.use(
                 collecting(task,
                            cfg=cfg,
