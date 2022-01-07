@@ -20,7 +20,7 @@ gobigger_config = dict(
     policy=dict(
         cuda=True,
         on_policy=False,
-        priority=False,
+        priority=True,
         priority_IS_weight=False,
         model=dict(
             scalar_shape=5,
@@ -35,7 +35,7 @@ gobigger_config = dict(
         ),
         learn=dict(
             update_per_collect=8,
-            batch_size=256,
+            batch_size=128,
             learning_rate=0.001,
             target_theta=0.005,
             discount_factor=0.99,
