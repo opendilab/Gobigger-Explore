@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import copy
+import torch
 from tensorboardX import SummaryWriter
 import sys
 sys.path.append('..')
@@ -107,15 +108,10 @@ def learning(task: Task, cfg, tb_logger, learner, policy, seed=0):
                 "env_step"]
             replay_buffer.push(new_data[0], cur_collector_envstep=env_step)
 
-    def save_eval_session(eval_session):
-        nonlocal last_eval_iter
-        last_eval_iter = eval_session["last_eval_iter"]
-
     def _learning(ctx):
         nonlocal learner, replay_buffer, env_step, last_eval_iter
         if replay_buffer is None:
             task.on("collect_session", save_collect_session)
-            task.on("eval_session", save_eval_session)
             replay_buffer = NaiveReplayBuffer(cfg.policy.other.replay_buffer,
                                               tb_logger=tb_logger,
                                               exp_name=cfg.exp_name)
@@ -127,6 +123,7 @@ def learning(task: Task, cfg, tb_logger, learner, policy, seed=0):
             if train_data is None:
                 return
             learner.train(train_data, env_step)
+        torch.cuda.empty_cache()
 
         learn_session = {
             "train_iter": learner.train_iter,
@@ -136,6 +133,7 @@ def learning(task: Task, cfg, tb_logger, learner, policy, seed=0):
         task.emit("learn_session", learn_session)
         if learner.train_iter - last_eval_iter > cfg.policy.eval.evaluator.eval_freq:
             task.emit_remote("learn_session", learn_session)
+            last_eval_iter = learner.train_iter
 
     return _learning
 
@@ -179,10 +177,7 @@ def rule_evaluating(task: Task, cfg, tb_logger, policy, save_ckpt_fn, seed=0):
 
         print("............ Rule Evaluating", train_iter)
         stop_flag, _, _ = evaluator.eval(save_ckpt_fn, train_iter, env_step)
-
-        eval_session = {"last_eval_iter": train_iter}
-        task.emit("eval_session", eval_session)
-        task.emit_remote("eval_session", eval_session)
+        torch.cuda.empty_cache()
 
         if stop_flag:
             task.emit("rule_stop_flag", True)
@@ -215,26 +210,28 @@ def main(seed=0, max_iterations=int(1e10)):
                               instance_name='learner')
         # Pipeline start
         task.use_step_wrapper(StepTimer())
-        task.use(rule_evaluating(task,
-                                 cfg=cfg,
-                                 tb_logger=tb_logger,
-                                 policy=policy,
-                                 save_ckpt_fn=learner.save_checkpoint,
-                                 seed=seed),
-                 filter_labels=["standalone", "node.2"])
-        task.use(collecting(task,
-                            cfg=cfg,
-                            tb_logger=tb_logger,
-                            policy=policy,
-                            seed=0),
-                 filter_labels=["standalone", "node.0"])
-        task.use(learning(task,
-                          cfg=cfg,
-                          tb_logger=tb_logger,
-                          learner=learner,
-                          policy=policy,
-                          seed=0),
-                 filter_labels=["standalone", "node.0"])
+        if task.match_labels(["standalone", "node.1"]):
+            task.use(
+                rule_evaluating(task,
+                                cfg=cfg,
+                                tb_logger=tb_logger,
+                                policy=policy,
+                                save_ckpt_fn=learner.save_checkpoint,
+                                seed=seed))
+        if task.match_lables(["standalone", "node.0"]):
+            task.use(
+                collecting(task,
+                           cfg=cfg,
+                           tb_logger=tb_logger,
+                           policy=policy,
+                           seed=0))
+            task.use(
+                learning(task,
+                         cfg=cfg,
+                         tb_logger=tb_logger,
+                         learner=learner,
+                         policy=policy,
+                         seed=0))
         task.run(max_step=max_iterations)
 
 
