@@ -6,14 +6,22 @@
 This is the baseline of GoBigger Multi-Agent Decision Intelligence [Challenge](https://www.datafountain.cn/competitions/549) in 2021. The baseline is based on [OpenDILab](https://github.com/opendilab/DI-engine) and aims to provide a simple entry-level method. Participants can build agents by extending the baseline method provided. In addition, Opendilab's modular structure allows participants to easily get started, and it provides a wealth of reinforcement learning algorithms for participants to use. This baseline is a good starting point, especially for entry-level researchers who are familiar with multi-agent decision AI problems.
 
 ## :rocket: Release Version
-The current version is the latest version v-0.2.0.
+The current version is the latest version 0.3.0.
 1. What needs to be optimized in the future
-   - Variable length features lead to potential GPU memory explosion risk.
-   - Better reward function design.
-2. Version-0.2.0
+   - Application of advance algorithms.
+   - Design and study of advanced actions.
+2. Version-0.3.0
+   - Adopt in-place algorithm and gradient accumulation strategy to save memory space.
+   - Efficient encoding of the features of the Version-0.2.0 relation section.
+   - Simplified network model and efficient training process design.
+3. Version-0.2.0
+   - [version-0.2.0 version Link](https://github.com/opendilab/Gobigger-Explore/releases/tag/v0.2.0)
    - Fix the ckpt bug to improve the accuracy of the evaluator.
    - Fix replay_buffer bug
    - Replay_buffer stores variable-length features to improve data utilization and training speed.
+4. Version-0.1.0
+   - [version-0.1.0 version Link](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
+5. Feature Engineering
    - Brand new feature engineering to improve convergence speed.
       - Scalar Encoder 
         ![avatar](./avatar/scalar.svg)
@@ -43,17 +51,16 @@ The current version is the latest version v-0.2.0.
       - Model
           - The role of the mask is to record the effective information after padding. Need to combine code to understand better.
           - The model design in Baseline is not the best, players just enjoy it!
-          ![avatar](./avatar/model.svg)
-3. Version-0.1.0
-   - [Primary version link](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
-4. Win Rate VS Bot
-   - Version-0.2.0  VS Rule based bot in [Gobigger](https://github.com/opendilab/GoBigger/blob/main/gobigger/agents/bot_agent.py).
-   ![avatar](./avatar/v-0-2-0.jpg)
-5. Version comparison
-   - Version-0.2.0 VS Version-0.1.0
-      - It can be seen from the figure that with the same number of steps, the speed of Version-0.2.0 is increased by 4 times, and the convergence is better.
-   ![avatar](./avatar/v020-v010-tb.png)
-   ![avatar](./avatar/v020-v010-label.png)
+          ![avatar](./avatar/v3-model.svg)
+6. Win Rate VS Bot
+   - Version-0.3.0  VS Rule based bot in [Gobigger](https://github.com/opendilab/GoBigger/blob/main/gobigger/agents/bot_agent.py).
+   ![avatar](./avatar/v030.jpg)
+7. Version comparison
+   - Version-0.3.0 VS Version-0.2.0
+     - v0.3.0 is more lightweight, and network design and feature coding are easy to use.
+      - v0.3.0reward and Q-value curve
+      ![avatar](./avatar/v030-rule.jpg)
+      ![avatar](./avatar/v030-qvalue.jpg)
    
 ## :point_down: Getting Started
 
@@ -96,9 +103,13 @@ The current version is the latest version v-0.2.0.
 
 ## :dart: Result
 We released training log information, checkpoints, and evaluation videos. Below is the download link,
-   - Baidu Netdisk [Link](https://pan.baidu.com/s/11sBoLWBEN33iNycs8y7fsw)
-      - Extraction code: u4i6
-   - Google Drive [Link]()
+   - Version 0.3.0
+     - Baidu Netdisk [Link](https://pan.baidu.com/s/11JTsw197jfjfijxpghA06w)
+        - Extraction code: 95el
+   - Version 0.2.0
+     - Baidu Netdisk [Link](https://pan.baidu.com/s/11sBoLWBEN33iNycs8y7fsw)
+        - Extraction code: u4i6
+   
 
 
 ## :heart_eyes: Resources
@@ -106,5 +117,3 @@ We released training log information, checkpoints, and evaluation videos. Below 
    - Challenge Repo [Github Link](https://github.com/opendilab/GoBigger-Challenge-2021)
    - DI-engine Repo [Github Link](https://github.com/opendilab/DI-engine)
    - GoBigger Repo [Github Link](https://github.com/opendilab/GoBigger)
-
-

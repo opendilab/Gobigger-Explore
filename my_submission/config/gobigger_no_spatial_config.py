@@ -1,7 +1,7 @@
 from easydict import EasyDict
 
 gobigger_config = dict(
-    exp_name='gobigger_simple_baseline_dqn',
+    exp_name='gobigger_baseline_v030',
     env=dict(
         collector_env_num=8,
         evaluator_env_num=3, 
@@ -63,6 +63,6 @@ gobigger_create_config = dict(
         import_names=['dizoo.gobigger.envs.gobigger_env'],
     ),
     env_manager=dict(type='subprocess'),
-    policy=dict(type='dqn'),
+    policy=dict(type='gobigger_dqn'),
 )
 create_config = EasyDict(gobigger_create_config)

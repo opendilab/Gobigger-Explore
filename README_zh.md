@@ -6,14 +6,22 @@
 这是2021年GoBigger Multi-Agent Decision Intelligence [Challenge](https://www.datafountain.cn/competitions/549)的基线。基线基于[OpenDILab](https://github.com/opendilab/DI-engine)并旨在提供一种简单的入门级方法。参赛选手可以通过扩展提供的基线方法来构建智能体。此外，OpenDILab的模块化结构让参与者可以轻松读懂代码，并且提供了丰富的强化学习算法供参与者使用。对于熟悉多智能体决策AI问题的入门级研究人员来说，这个基线具有较好的指导意义。
 
 ## :rocket: 发布版本
-当前版本为最新的版本v-0.2.0。
+当前版本为最新的版本v-0.3.0。
 1. 未来版本预告
-   - 不定长的特征存在潜在的显存爆炸风险。
-   - 更好的奖励函数设计。
-2. Version-0.2.0
+   - 高级算法的应用。
+   - 高级动作的设计及学习。
+2. Version-0.3.0
+   - 采用原地算法in-place以及梯度累积策略，节省显存空间。
+   - 高效编码 Version-0.2.0 relation部分的特征。
+   - 更小的网络模型以及高效的训练过程设计。
+3. Version-0.2.0
+   - [version-0.2.0版本链接](https://github.com/opendilab/Gobigger-Explore/releases/tag/v0.2.0)
    - 修复ckpt bug, 提升evaluator评估器的准确性。
    - 修复replay_buffer bug。
    - replay_buffer存放不定长特征，提升数据利用率及训练速度。
+4. Version-0.1.0
+   - [version-0.1.0版本链接](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
+5. 特征工程
    - 全新的特征工程以及网络结构,提升收敛速度。
       - Scalar Encoder 
         ![avatar](./avatar/scalar.svg)
@@ -44,20 +52,16 @@
       - Model
           - mask的作用，记录padding后的有效信息。需结合代码理解更佳。 
           - Baseline中的model设计并不是最好的，选手可以尽情脑洞！
-          ![avatar](./avatar/model.svg)
-
-   
-    
-3. Version-0.1.0
-   - [version-0.1.0版本链接](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
-4. 与Bot对打的胜率
-   - Version-0.2.0 基于规则的Bot位于[Gobigger](https://github.com/opendilab/GoBigger/blob/main/gobigger/agents/bot_agent.py)。
-   ![avatar](./avatar/v-0-2-0.jpg)
-5. 版本对比
-   - Version-0.2.0 VS Version-0.1.0
-      - 由图可知,相同的step数目,Version-0.2.0速度提升了4倍，且收敛性更好。
-   ![avatar](./avatar/v020-v010-tb.png)
-   ![avatar](./avatar/v020-v010-label.png)
+          ![avatar](./avatar/v3-model.svg)
+6. 与Bot对打的胜率
+   - Version-0.3.0 基于规则的Bot位于[Gobigger](https://github.com/opendilab/GoBigger/blob/main/gobigger/agents/bot_agent.py)。
+   ![avatar](./avatar/v030.jpg)
+7. 版本对比
+   - Version-0.3.0 VS Version-0.2.0
+      - v0.3.0更加轻量化，网络设计与特征编码易于上手。
+      - v0.3.0reward及Q值曲线
+      ![avatar](./avatar/v030-rule.jpg)
+      ![avatar](./avatar/v030-qvalue.jpg)
 ## :point_down: 让我们开始吧
 
 1. 实验环境
@@ -99,9 +103,12 @@
 
 ## :dart: 实验结果
 我们开源了训练的log信息，检查点文件以及评估的视频。链接如下，
-   - 百度云盘[链接](https://pan.baidu.com/s/11sBoLWBEN33iNycs8y7fsw)
-      - 提取码: u4i6
-   - 谷歌云盘[链接]()
+   - Version 0.3.0
+     - 百度云盘 [Link](https://pan.baidu.com/s/11JTsw197jfjfijxpghA06w)
+        - 提取码: 95el
+   - Version 0.2.0
+     - 百度云盘 [Link](https://pan.baidu.com/s/11sBoLWBEN33iNycs8y7fsw)
+        - 提取码: u4i6 
 
 ## :heart_eyes: 相关资源链接
    - [比赛主页链接](https://www.datafountain.cn/competitions/549)
