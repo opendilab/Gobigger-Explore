@@ -13,7 +13,7 @@ from ding.utils import set_pkg_seed
 from gobigger.agents import BotAgent
 
 from envs import GoBiggerSimpleEnv
-from model import GoBiggerHybridActionSimple
+from model import GoBiggerHybridActionSimpleV3
 from config.gobigger_no_spatial_config import main_config
 import torch
 import argparse
@@ -75,7 +75,7 @@ def main(cfg, ckpt_path, seed=0):
     rule_evaluator_env.seed(seed, dynamic_seed=False)
     set_pkg_seed(seed, use_cuda=cfg.policy.cuda)
 
-    model = GoBiggerHybridActionSimple(**cfg.policy.model)
+    model = GoBiggerHybridActionSimpleV3(**cfg.policy.model)
     policy = DQNPolicy(cfg.policy, model=model)
     policy.eval_mode.load_state_dict(torch.load(ckpt_path))
     team_num = cfg.env.team_num

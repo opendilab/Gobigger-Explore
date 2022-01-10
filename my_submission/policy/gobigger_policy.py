@@ -44,6 +44,47 @@ def default_preprocess_learn(
         use_nstep: bool = False,
         ignore_done: bool = False,
 ) -> dict:
+
+    # caculate max clone num
+    tmp = [d['obs'] for d in data]
+    tmp = {k: sum([d[k] for d in tmp], []) for k in tmp[0].keys() if not k.startswith('collate_ignore')}
+    max_clone_num = max([x.shape[0] for x in tmp['clone']])
+    limit = 52
+    print('max_clone_num:{}, limit:{}'.format(max_clone_num,limit))
+    mini_bs = int(len(data)//2)
+    if max_clone_num > limit:
+        split_data1 = data[:mini_bs]
+        split_data2 = data[mini_bs:]
+
+        re = []
+        for dt in (split_data1, split_data2):
+            obs = [d['obs'] for d in dt]
+            next_obs = [d['next_obs'] for d in dt]
+            for i in range(len(dt)):
+                dt[i] = {k: v for k, v in dt[i].items() if not 'obs' in k}
+            dt = default_collate(dt)
+            dt['obs'] = gobigger_collate(obs)
+            dt['next_obs'] = gobigger_collate(next_obs)
+            if ignore_done:
+                dt['done'] = torch.zeros_like(dt['done']).float()
+            else:
+                dt['done'] = dt['done'].float()
+            if use_priority_IS_weight:
+                assert use_priority, "Use IS Weight correction, but Priority is not used."
+            if use_priority and use_priority_IS_weight:
+                dt['weight'] = dt['IS']
+            else:
+                dt['weight'] = dt.get('weight', None)
+            if use_nstep:
+                # Reward reshaping for n-step
+                reward = dt['reward']
+                if len(reward.shape) == 1:
+                    reward = reward.unsqueeze(1)
+                # reward: (batch_size, nstep) -> (nstep, batch_size)
+                dt['reward'] = reward.permute(1, 0).contiguous()
+            re.append(dt)
+        return re
+
     # data collate
     obs = [d['obs'] for d in data]
     next_obs = [d['next_obs'] for d in data]
@@ -228,6 +269,54 @@ class DQNPolicy(Policy):
             ignore_done=self._cfg.learn.ignore_done,
             use_nstep=True
         )
+
+        ####################################################################
+        if isinstance(data, list):
+            self._optimizer.zero_grad()
+            for dt in data:
+                if self._cuda:
+                    dt = to_device(dt, self._device)
+                # ====================
+                # Q-learning forward
+                # ====================
+                self._learn_model.train()
+                self._target_model.train()
+                # Current q value (main model)
+                q_value = self._learn_model.forward(dt['obs'])['logit']
+                # Target q value
+                with torch.no_grad():
+                    target_q_value = self._target_model.forward(dt['next_obs'])['logit']
+                    # Max q value action (main model)
+                    target_q_action = self._learn_model.forward(dt['next_obs'])['action']
+
+                data_n = q_nstep_td_data(
+                    q_value, target_q_value, dt['action'], target_q_action, dt['reward'], dt['done'], dt['weight']
+                )
+                value_gamma = dt.get('value_gamma')
+                loss, td_error_per_sample = q_nstep_td_error(data_n, self._gamma, nstep=self._nstep, value_gamma=value_gamma)
+
+                # ====================
+                # Q-learning update
+                # ====================
+                loss.backward()
+            if self._cfg.learn.multi_gpu:
+                self.sync_gradients(self._learn_model)
+            self._optimizer.step()
+
+            # =============
+            # after update
+            # =============
+            self._target_model.update(self._learn_model.state_dict())
+            return {
+                'cur_lr': self._optimizer.defaults['lr'],
+                'total_loss': loss.item(),
+                'q_value': q_value.mean().item(),
+                'priority': td_error_per_sample.abs().tolist(),
+                # Only discrete action satisfying len(data['action'])==1 can return this and draw histogram on tensorboard.
+                # '[histogram]action_distribution': data['action'],
+            }
+        ####################################################################
+
         if self._cuda:
             data = to_device(data, self._device)
         # ====================

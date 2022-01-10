@@ -81,15 +81,17 @@ class GoBiggerSimpleEnv(GoBiggerEnv):
             # encode units
             food, food_relation = food_encode(clone, food, left_top_x, left_top_y, right_bottom_x, right_bottom_y, team_id, player_id)
             
-            cl_ego = []
-            for cl in clone:
-                if (int(cl[-1])==team_id and int(cl[-2])==player_id):
-                    cl_ego += [cl]
-            cl_ego = np.array(cl_ego)
+            cl_ego = np.where((clone[:,-1]==team_id) & (clone[:,-2]==player_id))
+            cl_ego = clone[cl_ego]
 
-            thorn_relation = relation_encode(clone, thorn) 
-            clone_relation = relation_encode(cl_ego, clone)
-            clone = clone_encode(clone, speed=self._speed) 
+            cl_other = np.where((clone[:,-1]!=team_id) | (clone[:,-2]!=player_id))
+            cl_other = clone[cl_other]
+            if cl_other.size == 0:
+                cl_other = np.array([[center_x, center_y, 0, team_id+1, player_id]]) if not self._speed else np.array([[center_x, center_y, 0, 0, 0, team_id+1, player_id]])
+
+            thorn_relation = relation_encode(cl_ego, thorn)
+            clone_relation = relation_encode(cl_ego, cl_other)
+            clone = clone_encode(cl_ego, speed=self._speed)
 
             player_obs = {
                 'scalar': scalar_obs.astype(np.float32),
