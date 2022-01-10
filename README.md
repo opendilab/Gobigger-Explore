@@ -11,8 +11,8 @@ The current version is the latest version 0.3.0.
    - Application of advance algorithms.
    - Design and study of advanced actions.
 2. Version-0.3.0
-   - Adopt in-place algorithm and gradient accumulation strategy to save memory space.
-   - Efficient encoding of the features of the Version-0.2.0 relation section.
+   - Adopt in-place algorithm and gradient accumulation strategy to save gpu memory.
+   - Efficiently encode the characteristics of the Version-0.2.0 relational section.
    - Simplified network model and efficient training process design.
 3. Version-0.2.0
    - [version-0.2.0 version Link](https://github.com/opendilab/Gobigger-Explore/releases/tag/v0.2.0)

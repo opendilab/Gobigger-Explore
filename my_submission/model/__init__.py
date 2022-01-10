@@ -1,1 +1,1 @@
-from .gobigger_structed_simple_model import GoBiggerHybridActionSimple
+from .gobigger_structed_simple_model import GoBiggerHybridActionSimpleV3

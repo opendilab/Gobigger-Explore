@@ -61,6 +61,7 @@
       - v0.3.0更加轻量化，网络设计与特征编码易于上手。
       - v0.3.0reward及Q值曲线
       ![avatar](./avatar/v030-rule.jpg)
+      
       ![avatar](./avatar/v030-qvalue.jpg)
 ## :point_down: 让我们开始吧
 
