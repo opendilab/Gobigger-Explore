@@ -93,13 +93,15 @@
     # Download baseline
     git clone https://github.com/opendilab/Gobigger-Explore.git
     cd my_submission/entry/
-    python gobigger_vsbot_baseline_main.py
+    python gobigger_vsbot_baseline_simple_main.py
 ```
 
 5. 评估并保存视频
 ```
     cd my_submission/entry/
-    python gobigger_vsbot_baseline_eval.py --ckpt YOUR_CKPT_PATH
+    python gobigger_vsbot_baseline_simple_eval.py --ckpt YOUR_CKPT_PATH
+    # 无需保存视频,需取消注释gobigger_env.py 258行
+    python gobigger_vsbot_baseline_simple_quick_eval.py --ckpt YOUR_CKPT_PATH
 ```
 
 ## :dart: 实验结果
