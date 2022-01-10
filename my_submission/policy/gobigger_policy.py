@@ -50,7 +50,7 @@ def default_preprocess_learn(
     tmp = {k: sum([d[k] for d in tmp], []) for k in tmp[0].keys() if not k.startswith('collate_ignore')}
     max_clone_num = max([x.shape[0] for x in tmp['clone']])
     limit = 52
-    print('max_clone_num:{}, limit:{}'.format(max_clone_num,limit))
+    #print('max_clone_num:{}, limit:{}'.format(max_clone_num,limit))
     mini_bs = int(len(data)//2)
     if max_clone_num > limit:
         split_data1 = data[:mini_bs]

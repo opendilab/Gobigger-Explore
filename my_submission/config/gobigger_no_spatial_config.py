@@ -35,7 +35,7 @@ gobigger_config = dict(
         ),
         learn=dict(
             update_per_collect=8,
-            batch_size=256,
+            batch_size=128,
             learning_rate=0.001,
             target_theta=0.005,
             discount_factor=0.99,
@@ -63,6 +63,6 @@ gobigger_create_config = dict(
         import_names=['dizoo.gobigger.envs.gobigger_env'],
     ),
     env_manager=dict(type='subprocess'),
-    policy=dict(type='gobigger_dqn'),
+    policy=dict(type='dqn'),
 )
 create_config = EasyDict(gobigger_create_config)
