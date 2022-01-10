@@ -92,13 +92,15 @@ The current version is the latest version 0.3.0.
     # Download baseline
     git clone https://github.com/opendilab/Gobigger-Explore.git
     cd my_submission/entry/
-    python gobigger_vsbot_baseline_main.py
+    python gobigger_vsbot_baseline_simple_main.py.py
 ```
 
 5. Evaluator and Save game videos
 ```
     cd my_submission/entry/
-    python gobigger_vsbot_baseline_eval.py --ckpt YOUR_CKPT_PATH
+    python gobigger_vsbot_baseline_simple_eval.py --ckpt YOUR_CKPT_PATH
+    # No need to save the video, uncomment line 258 of gobigger_env.py
+    python gobigger_vsbot_baseline_simple_quick_eval.py --ckpt YOUR_CKPT_PATH
 ```
 
 ## :dart: Result
