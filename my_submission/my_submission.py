@@ -37,6 +37,7 @@ class MySubmission(BaseSubmission):
             policy=DQNPolicy,
             save_cfg=False,
         )
+        self.cfg.env.train = False
         print(self.cfg)
         self.root_path = os.path.abspath(os.path.dirname(__file__))
         self.model = GoBiggerHybridActionSimpleV3(**self.cfg.policy.model)

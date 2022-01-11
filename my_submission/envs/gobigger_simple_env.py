@@ -30,6 +30,7 @@ class GoBiggerSimpleEnv(GoBiggerEnv):
         self._map_height = cfg.map_height
         self._map_width = cfg.map_width
         self._spatial = cfg.spatial
+        self._train = cfg.train
         self._last_team_size = None
         self._init_flag = False
         self._speed = cfg.speed
