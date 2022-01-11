@@ -139,3 +139,5 @@ total_config.py
 *.mp4
 *.zip
 *.yaml
+
+supplements/

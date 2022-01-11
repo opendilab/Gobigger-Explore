@@ -30,7 +30,6 @@ class GoBiggerSimpleEnv(GoBiggerEnv):
         self._map_height = cfg.map_height
         self._map_width = cfg.map_width
         self._spatial = cfg.spatial
-        self._train = cfg.train
         self._last_team_size = None
         self._init_flag = False
         self._speed = cfg.speed
@@ -42,6 +41,73 @@ class GoBiggerSimpleEnv(GoBiggerEnv):
 
     def _unit_id(self, unit_player, unit_team, ego_player, ego_team, team_size):
         return unit_id(unit_player, unit_team, ego_player, ego_team, team_size)
+    
+
+    def _obs_transform_eval(self, obs: tuple) -> list:
+        player_bot_obs = copy.deepcopy(obs)
+        global_state, player_state = obs
+        player_state = OrderedDict(player_state)
+        # global
+        # 'border': [map_width, map_height] fixed map size
+        total_time = global_state['total_time']
+        last_time = global_state['last_time']
+        rest_time = total_time - last_time
+
+        # player
+        obs = []
+        for n, value in player_state.items():
+            # scalar feat
+            # get margin
+            left_top_x, left_top_y, right_bottom_x, right_bottom_y = value['rectangle']
+            center_x, center_y = (left_top_x + right_bottom_x) / 2, (left_top_y + right_bottom_y) / 2
+            left_margin, right_margin = left_top_x, self._map_width - right_bottom_x
+            top_margin, bottom_margin = left_top_y, self._map_height - right_bottom_y
+            # get scalar feat
+            scalar_obs = np.array([rest_time / 1000, left_margin / 1000, right_margin / 1000, top_margin / 1000, bottom_margin / 1000])  # dim = 5
+
+            # unit feat
+            overlap = value['overlap']
+            team_id, player_id = self._unit_id(n, value['team_name'], n, value['team_name'], self._player_num_per_team) #always [0,0]
+            # load units
+            fake_thorn = np.array([[center_x, center_y, 0]]) if not self._speed else np.array([[center_x, center_y, 0, 0, 0]])
+            fake_clone = np.array([[center_x, center_y, 0, team_id, player_id]]) if not self._speed else np.array([[center_x, center_y, 0, 0, 0, team_id, player_id]])
+            food = overlap['food'] + overlap['spore'] # dim is not certain
+            thorn = np.array(overlap['thorns']) if len(overlap['thorns']) > 0 else fake_thorn
+            clone = np.array([[*x[:-2], *self._unit_id(x[-2], x[-1], n, value['team_name'], self._player_num_per_team)] for x in overlap['clone']]) if len(overlap['clone']) > 0 else fake_clone
+
+            overlap['spore'] = [x[:3] for x in overlap['spore']]
+            overlap['thorns'] = [x[:3] for x in overlap['thorns']]
+            overlap['clone'] = [[*x[:3], int(x[-2]), int(x[-1])] for x in overlap['clone']]
+            # encode units
+            food, food_relation = food_encode(clone, food, left_top_x, left_top_y, right_bottom_x, right_bottom_y, team_id, player_id)
+            
+            cl_ego = np.where((clone[:,-1]==team_id) & (clone[:,-2]==player_id))
+            cl_ego = clone[cl_ego]
+
+            cl_other = np.where((clone[:,-1]!=team_id) | (clone[:,-2]!=player_id))
+            cl_other = clone[cl_other]
+            if cl_other.size == 0:
+                cl_other = np.array([[center_x, center_y, 0, team_id+1, player_id]]) if not self._speed else np.array([[center_x, center_y, 0, 0, 0, team_id+1, player_id]])
+
+            thorn_relation = relation_encode(cl_ego, thorn)
+            clone_relation = relation_encode(cl_ego, cl_other)
+            clone = clone_encode(cl_ego, speed=self._speed)
+
+            player_obs = {
+                'scalar': scalar_obs.astype(np.float32),
+                'food': food.astype(np.float32),
+                'food_relation': food_relation.astype(np.float32),
+                'thorn_relation': thorn_relation.astype(np.float32),
+                'clone': clone.astype(np.float32),
+                'clone_relation': clone_relation.astype(np.float32),
+                #'collate_ignore_raw_obs': {'overlap': overlap,'player_bot_obs':player_bot_obs},
+                'collate_ignore_raw_obs': {'overlap': overlap},
+            }
+            obs.append(player_obs)
+
+        team_obs = []
+        team_obs.append(team_obs_stack(obs[:self._player_num_per_team]))
+        return team_obs 
 
     def _obs_transform(self, obs: tuple) -> list:
         player_bot_obs = copy.deepcopy(obs)
