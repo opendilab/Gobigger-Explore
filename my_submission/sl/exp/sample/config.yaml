@@ -1,0 +1,33 @@
+use_cuda: True
+learning_rate: 0.001
+milestones: [80000,160000,240000,320000]
+gamma: 0.8
+weight_decay: 0.00005
+max_iterations: 400000
+save_frequency: 5000
+exp_path: exp
+exp_name: sample
+print_freq: 20
+resume_ckpt: 
+model: 
+    scalar_shape: 5
+    food_shape: 2
+    food_relation_shape: 150
+    thorn_relation_shape: 12
+    clone_shape: 17
+    clone_relation_shape: 12
+    hidden_shape: 128
+    encode_shape: 32
+    action_type_shape: 24 # 4 * 6
+data: 
+    team_num: 4
+    player_num_per_team: 3
+    batch_size: 96
+    cache_size: 256
+    train_data_prefix: PATH/replays
+    train_data_file: PATH/replays.txt.train
+    worker_num: 64
+    angle_split_num: 4
+    action_type_num: 6
+    specific_agent_name: 
+    specific_agent_rank: 0
