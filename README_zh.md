@@ -10,18 +10,25 @@
 1. 未来版本预告
    - 高级算法的应用。
    - 高级动作的设计及学习。
-2. Version-0.3.0
+2. 监督学习
+   - 采用bot对打生成监督学习的训练工具，[生成脚本](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/sl/generate_data_opensource.py) for supervised learning.
+   - 监督学习的模型可以作为Agent，也可作为强化学习的pre-train。
+   - 详情可见[SL](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/sl/)
+3. 采用Go-Explore算法训练Gobigger
+   - 通过加载残局比赛从而加快网络训练。
+   - 详情可见[go-explore](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/go-explore/)
+4. Version-0.3.0
    - 采用原地算法in-place以及梯度累积策略，节省显存空间。
    - 高效编码 Version-0.2.0 relation部分的特征。
    - 更小的网络模型以及高效的训练过程设计。
-3. Version-0.2.0
+5. Version-0.2.0
    - [version-0.2.0版本链接](https://github.com/opendilab/Gobigger-Explore/releases/tag/v0.2.0)
    - 修复ckpt bug, 提升evaluator评估器的准确性。
    - 修复replay_buffer bug。
    - replay_buffer存放不定长特征，提升数据利用率及训练速度。
-4. Version-0.1.0
+6. Version-0.1.0
    - [version-0.1.0版本链接](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
-5. 特征工程
+7. 特征工程
    - 全新的特征工程以及网络结构,提升收敛速度。
       - Scalar Encoder 
         ![avatar](./avatar/scalar.svg)
@@ -53,10 +60,10 @@
           - mask的作用，记录padding后的有效信息。需结合代码理解更佳。 
           - Baseline中的model设计并不是最好的，选手可以尽情脑洞！
           ![avatar](./avatar/v3-model.svg)
-6. 与Bot对打的胜率
+8. 与Bot对打的胜率
    - Version-0.3.0 基于规则的Bot位于[Gobigger](https://github.com/opendilab/GoBigger/blob/main/gobigger/agents/bot_agent.py)。
    ![avatar](./avatar/v030.jpg)
-7. 版本对比
+9. 版本对比
    - Version-0.3.0 VS Version-0.2.0
       - v0.3.0更加轻量化，网络设计与特征编码易于上手。
       - v0.3.0reward及Q值曲线
@@ -102,6 +109,19 @@
     python gobigger_vsbot_baseline_simple_eval.py --ckpt YOUR_CKPT_PATH
     # 无需保存视频,需取消注释gobigger_env.py 258行
     python gobigger_vsbot_baseline_simple_quick_eval.py --ckpt YOUR_CKPT_PATH
+```
+
+6. SL训练
+```
+   cd my_submission/sl/
+   python generate_data_opensource.py #生成训练数据
+   python train.py -c ./exp/sample/config.yaml #需要更改路径
+```
+
+7. Go explore
+```
+   cd my_submission/go-explore/
+   python gobigger_vsbot_explore_main.py
 ```
 
 ## :dart: 实验结果

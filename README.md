@@ -10,18 +10,26 @@ The current version is the latest version 0.3.0.
 1. What needs to be optimized in the future
    - Application of advance algorithms.
    - Design and study of advanced actions.
-2. Version-0.3.0
+2. Supervised Learning
+   - Using bots to [generate data](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/sl/generate_data_opensource.py) for supervised learning.
+   - The supervised learning model can be used as a competition model or as a pre-train for reinforcement learning.
+   - Details can be seen [SL](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/sl/)
+3. Gobigger with Go-Explore
+   - Training Gobigger with Go-Explore algorithm.
+   - Speed up network training by loading endgame matches.
+   - Details can be seen [go-explore](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/go-explore/)
+4. Version-0.3.0
    - Adopt in-place algorithm and gradient accumulation strategy to save gpu memory.
    - Efficiently encode the characteristics of the Version-0.2.0 relational section.
    - Simplified network model and efficient training process design.
-3. Version-0.2.0
+5. Version-0.2.0
    - [version-0.2.0 version Link](https://github.com/opendilab/Gobigger-Explore/releases/tag/v0.2.0)
    - Fix the ckpt bug to improve the accuracy of the evaluator.
    - Fix replay_buffer bug
    - Replay_buffer stores variable-length features to improve data utilization and training speed.
-4. Version-0.1.0
+6. Version-0.1.0
    - [version-0.1.0 version Link](https://github.com/opendilab/GoBigger-Challenge-2021/tree/main/di_baseline)
-5. Feature Engineering
+7. Feature Engineering
    - Brand new feature engineering to improve convergence speed.
       - Scalar Encoder 
         ![avatar](./avatar/scalar.svg)
@@ -52,10 +60,10 @@ The current version is the latest version 0.3.0.
           - The role of the mask is to record the effective information after padding. Need to combine code to understand better.
           - The model design in Baseline is not the best, players just enjoy it!
           ![avatar](./avatar/v3-model.svg)
-6. Win Rate VS Bot
+8. Win Rate VS Bot
    - Version-0.3.0  VS Rule based bot in [Gobigger](https://github.com/opendilab/GoBigger/blob/main/gobigger/agents/bot_agent.py).
    ![avatar](./avatar/v030.jpg)
-7. Version comparison
+9. Version comparison
    - Version-0.3.0 VS Version-0.2.0
      - v0.3.0 is more lightweight, and network design and feature coding are easy to use.
       - v0.3.0reward and Q-value curve
@@ -101,6 +109,19 @@ The current version is the latest version 0.3.0.
     python gobigger_vsbot_baseline_simple_eval.py --ckpt YOUR_CKPT_PATH
     # No need to save the video, uncomment line 258 of gobigger_env.py
     python gobigger_vsbot_baseline_simple_quick_eval.py --ckpt YOUR_CKPT_PATH
+```
+
+6. SL训练
+```
+   cd my_submission/sl/
+   python generate_data_opensource.py # generate data for training
+   python train.py -c ./exp/sample/config.yaml #need change data dir
+```
+
+7. Go explore
+```
+   cd my_submission/go-explore/
+   python gobigger_vsbot_explore_main.py
 ```
 
 ## :dart: Result
