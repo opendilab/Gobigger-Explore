@@ -17,7 +17,7 @@ sys.path.append('..')
 sys.path.append('.')
 
 from data import SLDataLoader, SLShareDataLoader
-from model import GoBiggerHybridActionSimple, GoBiggerDQNModel
+from model import GoBiggerHybridActionSimpleV3
 from ding.model import model_wrap
 from ding.torch_utils import to_device
 from utils.misc import AverageMeter, accuracy, create_logger, get_logger
@@ -57,8 +57,8 @@ class SLLearner:
                 player_num_per_team=3,
                 batch_size=40,
                 cache_size=120,
-                train_data_prefix='/mnt/lustre/share_data/zhangming/gobigger_data/replays',
-                train_data_file='/mnt/lustre/share_data/zhangming/gobigger_data/replays.txt.train',
+                train_data_prefix='PATH/replays',
+                train_data_file='PATH/replays.txt.train',
                 worker_num=40,
                 angle_split_num=4,
                 action_type_num=4,
@@ -70,7 +70,7 @@ class SLLearner:
         self.cfg = cfg
         # model
         assert self.cfg.model.action_type_shape == self.cfg.data.angle_split_num * self.cfg.data.action_type_num
-        self.model = GoBiggerDQNModel(**self.cfg.model)
+        self.model = GoBiggerHybridActionSimpleV3(**self.cfg.model)
         self.model = model_wrap(self.model, wrapper_name='argmax_sample')
         if self.cfg.use_cuda:
             self.model.cuda()

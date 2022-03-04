@@ -6,7 +6,7 @@ weight_decay: 0.00005
 max_iterations: 400000
 save_frequency: 5000
 exp_path: exp
-exp_name: sample13-4x6
+exp_name: sample
 print_freq: 20
 resume_ckpt: 
 model: 
@@ -24,8 +24,8 @@ data:
     player_num_per_team: 3
     batch_size: 96
     cache_size: 256
-    train_data_prefix: /mnt/lustre/share_data/zhangming/gobigger_data/replays
-    train_data_file: /mnt/lustre/share_data/zhangming/gobigger_data/replays.txt.train
+    train_data_prefix: PATH/replays
+    train_data_file: PATH/replays.txt.train
     worker_num: 64
     angle_split_num: 4
     action_type_num: 6
