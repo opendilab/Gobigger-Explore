@@ -1,2 +1,3 @@
 from .gobigger_env import GoBiggerEnv
 from .gobigger_simple_env import GoBiggerSimpleEnv
+from .gobigger_explore_env import GoBiggerExploreEnv
