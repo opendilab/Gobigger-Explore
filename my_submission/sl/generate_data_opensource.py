@@ -11,7 +11,7 @@ import random
 
 from gobigger.server import Server
 from gobigger.render import RealtimeRender, RealtimePartialRender, EnvRender
-
+from gobigger.agents import BotAgent
 
 logging.basicConfig(level=logging.INFO)
 
