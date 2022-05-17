@@ -170,4 +170,4 @@ Or you can contact us with [slack](https://opendilab.slack.com/join/shared_invit
 
 ## :cocktail: License
 
-GoBigger released under the Apache 2.0 license.
+GoBigger-Explore released under the Apache 2.0 license.
