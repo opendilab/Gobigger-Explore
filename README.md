@@ -1,12 +1,12 @@
 # GoBigger-Explore
 
-![banner](assets/banner.png)
+![banner](avatar/banner.png)
 
 [en](https://github.com/opendilab/Gobigger-Explore/blob/main/README.md)/[中文](https://github.com/opendilab/Gobigger-Explore/blob/main/README_zh.md)
 
 GoBigger-Explore is the collection of baseline for GoBigger Multi-Agent Decision Intelligence [Challenge](https://www.datafountain.cn/competitions/549) in 2021. The baseline is based on [OpenDILab](https://github.com/opendilab/DI-engine) and aims to provide a simple entry-level method. Participants can build agents by extending the baseline method provided. In addition, Opendilab's modular structure allows participants to easily get started, and it provides a wealth of reinforcement learning algorithms for participants to use. This baseline is a good starting point, especially for entry-level researchers who are familiar with multi-agent decision AI problems. We will also add more fancy algorithms in this repo.
 
-![banner](assets/pr1.gif)
+![pr1](avatar/pr1.gif)
 
 
 ## Outline
