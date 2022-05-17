@@ -11,14 +11,14 @@ GoBigger-Explore is the collection of baseline for GoBigger Multi-Agent Decision
 
 ## Outline
 
-* [Release Version](#-release-version)
-* [Getting Start](#-getting-start)
-* [Result](*-result)
-* [Resources](#-resources)
-* [Join and Contribute](#-join-and-contribute)
-* [License](#-license)
+* [Release Version](#release-version-)
+* [Getting Start](#getting-start)
+* [Result](#result)
+* [Resources](#resources)
+* [Join and Contribute](#join-and-contribute)
+* [License](#license)
 
-## :rocket: Release Version
+## Release Version :rocket:
 The current version is the latest version 0.3.0.
 1. What needs to be optimized in the future
    - Application of advance algorithms.
