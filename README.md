@@ -1,9 +1,22 @@
-# Gobigger-Explore
-## :crystal_ball: GoBigger Challenge 2021 Baseline
+# GoBigger-Explore
+
+![banner](assets/banner.png)
+
 [en](https://github.com/opendilab/Gobigger-Explore/blob/main/README.md)/[中文](https://github.com/opendilab/Gobigger-Explore/blob/main/README_zh.md)
 
-## :robot: Introduction
-This is the baseline of GoBigger Multi-Agent Decision Intelligence [Challenge](https://www.datafountain.cn/competitions/549) in 2021. The baseline is based on [OpenDILab](https://github.com/opendilab/DI-engine) and aims to provide a simple entry-level method. Participants can build agents by extending the baseline method provided. In addition, Opendilab's modular structure allows participants to easily get started, and it provides a wealth of reinforcement learning algorithms for participants to use. This baseline is a good starting point, especially for entry-level researchers who are familiar with multi-agent decision AI problems.
+GoBigger-Explore is the collection of baseline for GoBigger Multi-Agent Decision Intelligence [Challenge](https://www.datafountain.cn/competitions/549) in 2021. The baseline is based on [OpenDILab](https://github.com/opendilab/DI-engine) and aims to provide a simple entry-level method. Participants can build agents by extending the baseline method provided. In addition, Opendilab's modular structure allows participants to easily get started, and it provides a wealth of reinforcement learning algorithms for participants to use. This baseline is a good starting point, especially for entry-level researchers who are familiar with multi-agent decision AI problems. We will also add more fancy algorithms in this repo.
+
+![banner](assets/pr1.gif)
+
+
+## Outline
+
+* [Release Version](#release-version)
+* [Getting Start](#getting-start)
+* [Result](*result)
+* [Resources](#resources)
+* [Join and Contribute](#join-and-contribute)
+* [License](#license)
 
 ## :rocket: Release Version
 The current version is the latest version 0.3.0.
@@ -70,58 +83,65 @@ The current version is the latest version 0.3.0.
       ![avatar](./avatar/v030-rule.jpg)
       ![avatar](./avatar/v030-qvalue.jpg)
    
-## :point_down: Getting Started
+## :point_down: Getting Start
 
-1. System environment
-   - Core 8
-   - GPU 1080Ti(11G) or 1060(6G)
-   - Memory 40G
-2. Baseline Config
+### System environment
+
+- Core 8
+- GPU 1080Ti(11G) or 1060(6G)
+- Memory 40G
+
+### Baseline Config
    
-   - The default config is the [config](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/config/gobigger_no_spatial_config.py) used in this experiment. Participants can modify it according to the system environment.
-   - The size of replay_buffer_size needs to be set according to the size of RAM.
-   - The size of batch_size needs to be set according to the size of the GPU memory.
+- The default config is the [config](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/config/gobigger_no_spatial_config.py) used in this experiment. Participants can modify it according to the system environment.
+- The size of replay_buffer_size needs to be set according to the size of RAM.
+- The size of batch_size needs to be set according to the size of the GPU memory.
    
-3. Install the necessary packege
-```
-    # Install DI-engine
-    git clone https://github.com/opendilab/DI-engine.git
-    cd YOUR_PATH/DI-engine/
-    pip install -e . --user
+### Install the necessary packege
 
-    # Install Env Gobigger
-    git clone https://github.com/opendilab/GoBigger.git
-    cd YOUR_PATH/GoBigger/
-    pip install -e . --user
 ```
+# Install DI-engine
+git clone https://github.com/opendilab/DI-engine.git
+cd YOUR_PATH/DI-engine/
+pip install -e . --user
 
-4. Start training
-```
-    # Download baseline
-    git clone https://github.com/opendilab/Gobigger-Explore.git
-    cd my_submission/entry/
-    python gobigger_vsbot_baseline_simple_main.py.py
+# Install Env Gobigger
+git clone https://github.com/opendilab/GoBigger.git
+cd YOUR_PATH/GoBigger/
+pip install -e . --user
 ```
 
-5. Evaluator and Save game videos
+### Start training
+
 ```
-    cd my_submission/entry/
-    python gobigger_vsbot_baseline_simple_eval.py --ckpt YOUR_CKPT_PATH
-    # No need to save the video, uncomment line 258 of gobigger_env.py
-    python gobigger_vsbot_baseline_simple_quick_eval.py --ckpt YOUR_CKPT_PATH
+# Download baseline
+git clone https://github.com/opendilab/Gobigger-Explore.git
+cd my_submission/entry/
+python gobigger_vsbot_baseline_simple_main.py.py
 ```
 
-6. SL训练
+### Evaluator and Save game videos
+
 ```
-   cd my_submission/sl/
-   python generate_data_opensource.py # generate data for training
-   python train.py -c ./exp/sample/config.yaml #need change data dir
+cd my_submission/entry/
+python gobigger_vsbot_baseline_simple_eval.py --ckpt YOUR_CKPT_PATH
+# No need to save the video, uncomment line 258 of gobigger_env.py
+python gobigger_vsbot_baseline_simple_quick_eval.py --ckpt YOUR_CKPT_PATH
 ```
 
-7. Go explore
+### SL Training
+
 ```
-   cd my_submission/go-explore/
-   python gobigger_vsbot_explore_main.py
+cd my_submission/sl/
+python generate_data_opensource.py # generate data for training
+python train.py -c ./exp/sample/config.yaml #need change data dir
+```
+
+### Go explore
+
+```
+cd my_submission/go-explore/
+python gobigger_vsbot_explore_main.py
 ```
 
 ## :dart: Result
@@ -134,9 +154,21 @@ We released training log information, checkpoints, and evaluation videos. Below 
         - Extraction code: u4i6
    
 
-
 ## :heart_eyes: Resources
-   - [Challenge Page Link](https://www.datafountain.cn/competitions/549)
-   - Challenge Repo [Github Link](https://github.com/opendilab/GoBigger-Challenge-2021)
-   - DI-engine Repo [Github Link](https://github.com/opendilab/DI-engine)
-   - GoBigger Repo [Github Link](https://github.com/opendilab/GoBigger)
+- [Challenge Page Link](https://www.datafountain.cn/competitions/549)
+- Challenge Repo [Github Link](https://github.com/opendilab/GoBigger-Challenge-2021)
+- DI-engine Repo [Github Link](https://github.com/opendilab/DI-engine)
+- GoBigger Repo [Github Link](https://github.com/opendilab/GoBigger)
+
+
+## Join and Contribute
+
+Welcome to OpenDI Lab GoBigger community! Scan the QR code and add us on Wechat:
+
+![QR code](assets/qr.png)
+
+Or you can contact us with [slack](https://opendilab.slack.com/join/shared_invite/zt-v9tmv4fp-nUBAQEH1_Kuyu_q4plBssQ#/shared-invite/email) or email (opendilab.contact@gmail.com).
+
+## License
+
+GoBigger released under the Apache 2.0 license.
