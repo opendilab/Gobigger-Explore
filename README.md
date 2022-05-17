@@ -11,12 +11,12 @@ GoBigger-Explore is the collection of baseline for GoBigger Multi-Agent Decision
 
 ## Outline
 
-* [Release Version](#release-version)
-* [Getting Start](#getting-start)
-* [Result](*result)
-* [Resources](#resources)
-* [Join and Contribute](#join-and-contribute)
-* [License](#license)
+* [Release Version](#-release-version)
+* [Getting Start](#-getting-start)
+* [Result](*-result)
+* [Resources](#-resources)
+* [Join and Contribute](#-join-and-contribute)
+* [License](#-license)
 
 ## :rocket: Release Version
 The current version is the latest version 0.3.0.
@@ -161,14 +161,14 @@ We released training log information, checkpoints, and evaluation videos. Below 
 - GoBigger Repo [Github Link](https://github.com/opendilab/GoBigger)
 
 
-## Join and Contribute
+## :star: Join and Contribute
 
 Welcome to OpenDI Lab GoBigger community! Scan the QR code and add us on Wechat:
 
-![QR code](assets/qr.png)
+![QR code](avatar/qr.png)
 
 Or you can contact us with [slack](https://opendilab.slack.com/join/shared_invite/zt-v9tmv4fp-nUBAQEH1_Kuyu_q4plBssQ#/shared-invite/email) or email (opendilab.contact@gmail.com).
 
-## License
+## :cocktail: License
 
 GoBigger released under the Apache 2.0 license.
