@@ -4,7 +4,7 @@
 
 [en](https://github.com/opendilab/Gobigger-Explore/blob/main/README.md)/[中文](https://github.com/opendilab/Gobigger-Explore/blob/main/README_zh.md)
 
-GoBigger-Explore is the collection of baseline for GoBigger Multi-Agent Decision Intelligence [Challenge](https://www.datafountain.cn/competitions/549) in 2021. The baseline is based on [OpenDILab](https://github.com/opendilab/DI-engine) and aims to provide a simple entry-level method. Participants can build agents by extending the baseline method provided. In addition, Opendilab's modular structure allows participants to easily get started, and it provides a wealth of reinforcement learning algorithms for participants to use. This baseline is a good starting point, especially for entry-level researchers who are familiar with multi-agent decision AI problems. We will also add more fancy algorithms in this repo.
+GoBigger-Explore is the collection of baseline for GoBigger Multi-Agent Decision Intelligence [Challenge](https://www.datafountain.cn/competitions/549) in 2021. The baseline is based on [OpenDILab](https://github.com/opendilab/DI-engine) and aims to provide a simple entry-level method. Participants can build agents by extending the baseline method provided. In addition, Opendilab's modular structure allows participants to easily get started, and it provides a wealth of reinforcement learning algorithms for participants to use. This baseline is a good starting point, especially for entry-level researchers who are familiar with multi-agent decision AI problems. We will also add more fancy algorithms to this repo.
 
 <p align="center"><img src="avatar/pr1.gif" alt="amazing balls" /></p>
 
@@ -20,7 +20,7 @@ GoBigger-Explore is the collection of baseline for GoBigger Multi-Agent Decision
 ## :rocket: Release Version
 The current version is the latest version 0.3.0.
 1. What needs to be optimized in the future
-   - Application of advance algorithms.
+   - Application of advanced algorithms.
    - Design and study of advanced actions.
 2. Supervised Learning
    - Using bots to [generate data](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/sl/generate_data_opensource.py) for supervised learning.
@@ -31,7 +31,7 @@ The current version is the latest version 0.3.0.
    - Speed up network training by loading endgame matches.
    - Details can be seen [go-explore](https://github.com/opendilab/Gobigger-Explore/blob/main/my_submission/go-explore/)
 4. Version-0.3.0
-   - Adopt in-place algorithm and gradient accumulation strategy to save gpu memory.
+   - Adopt in-place algorithms and gradient accumulation strategy to save gpu memory.
    - Efficiently encode the characteristics of the Version-0.2.0 relational section.
    - Simplified network model and efficient training process design.
 5. Version-0.2.0
@@ -96,7 +96,7 @@ The current version is the latest version 0.3.0.
 - The size of replay_buffer_size needs to be set according to the size of RAM.
 - The size of batch_size needs to be set according to the size of the GPU memory.
    
-### Install the necessary packege
+### Install the necessary package
 
 ```
 # Install DI-engine
