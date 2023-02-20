@@ -1,0 +1,22 @@
+common:
+  experiment_name: test
+communication:
+  league_ip: '127.0.0.1' # IMPORTANT, run coordinator on the node you specified
+  league_port: 12227
+  learner_send_train_info_freq: 400
+  learner_send_model_freq: 4
+  actor_model_update_interval: 10 # seconds
+  send_data_num_workers: 3
+  send_data_queue_size: 20
+env:
+  name: 'cartpole'
+agent:
+  player_id: MP0
+  unroll_len : 10
+actor:
+  env_num: 3
+  job_type: 'train'
+  debug_mode: False
+  log_show_freq: 100
+  record_decay: 0.99
+  record_warm_up_size: 100

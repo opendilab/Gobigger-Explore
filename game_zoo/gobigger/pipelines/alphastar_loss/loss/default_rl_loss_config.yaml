@@ -1,0 +1,36 @@
+learner:
+  loss_weights:
+    values:
+      score: 1.0 #10.0
+      spore: 0.1
+      team_spore: 0.1
+      clone: 0.1
+      team_clone: 0.1
+      opponent: 0.2
+      team_opponent: 0.2
+      max_dist: 0.05
+      min_dist: 0.05
+    policies:
+      score: 1.0
+      spore: 0.1
+      team_spore: 0.1
+      clone: 0.2
+      team_clone: 0.2
+      opponent: 0.2
+      team_opponent: 0.2
+      max_dist: 0.05
+      min_dist: 0.05
+    entropy: 0.01
+    kl: 1
+  loss_parameters:
+    gammas:
+      score: 0.99
+      spore: 0.992
+      team_spore: 0.992
+      clone: 0.995
+      team_clone: 0.995
+      opponent: 0.995
+      team_opponent: 0.995
+      max_dist: 0.99
+      min_dist: 0.99
+    lambda: 0.8

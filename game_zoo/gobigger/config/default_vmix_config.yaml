@@ -1,0 +1,81 @@
+var1: &pipeline 'serial_vmix'
+common:
+  experiment_name: gb_serial_vmix_baseline_t2p2
+  seed: 0
+env:
+  name: 'gobigger'
+  team_num: 2
+  player_num_per_team: 2
+  step_mul: 8
+  map_width: 64
+  map_height: 64
+  frame_limit: 3600
+  manager_settings:
+    food_manager:
+        num_init: 260
+        num_min: 260
+        num_max: 300
+    thorns_manager:
+        num_init: 3
+        num_min: 3
+        num_max: 4
+    player_manager:
+        ball_settings:
+            score_init: 13000
+  playback_settings:
+    playback_type: 'by_frame'
+    by_frame:
+      save_frame: False
+collect:
+  env_num: 8
+evaluate:
+  env_num: 8
+  stop_value: 1000000
+  eval_episodes_num: 2
+  eval_freq: 100000
+agent:
+  use_cuda: True
+  use_value_feature: True
+  pipeline: *pipeline
+  rollout_nstep: 256
+  update_per_collect: 1
+  load_checkpoint_path: ''
+  print_eval_result: True
+  print_collect_result: True
+  learning_starts: 2048
+  n_step: 1
+  # tau: 1
+  action_num: 27
+  features:
+    max_ball_num: 80
+    max_food_num: 256
+    max_spore_num: 64
+    direction_num: 12
+    spatial_x: 64
+    spatial_y: 64
+  loss_parameters:
+    gamma: 0.99
+    reward_normalization: True
+  loss_weights:
+    policy: 1
+    value: 0.5
+    entropy: 0.01
+  replay_buffer:
+    max_buffer_size: 8
+    batch_size: 8
+  optimizer:
+    type: 'rmsprop' # chosen from ['adam','rmsprop']
+    learning_rate: 0.0001
+    weight_decay: 0.0
+    # eps: 0.00001
+    # momentum: 0         # used in 'adam' 0.999 &'rmsprop' 0
+    # decay: 0.99         # used in 'adam' 0.9 &'rmsprop' 0.99
+  grad_clip:
+    type: 'clip_norm'
+    threshold: 0.5
+    norm_type: 2
+learner:
+  n_timesteps: 10000000
+  log_show_freq: 100
+  target_update_interval: 200
+  save_checkpoint_freq: 10000

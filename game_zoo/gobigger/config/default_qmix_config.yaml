@@ -1,0 +1,87 @@
+var1: &pipeline 'serial_qmix'
+var2: &team_num 2
+var3: &player_num_per_team 2
+
+common:
+  experiment_name: gb_serial_qmix
+  seed: 1
+env:
+  name: 'gobigger'
+  team_num: *team_num
+  player_num_per_team: *player_num_per_team
+  step_mul: 8
+  map_width: 64
+  map_height: 64
+  frame_limit: 3600
+  manager_settings:
+    food_manager:
+        num_init: 260
+        num_min: 260
+        num_max: 300
+    thorns_manager:
+        num_init: 3
+        num_min: 3
+        num_max: 4
+    player_manager:
+        ball_settings:
+            score_init: 13000
+  playback_settings:
+    playback_type: 'by_frame'
+    by_frame:
+      save_frame: False
+collect:
+  env_num: 16
+evaluate:
+  env_num: 3
+  stop_value: 10000000000
+  eval_episodes_num: 1
+  eval_freq: 10000
+agent:
+  use_cuda: True
+  pipeline: *pipeline
+  rollout_nstep: 32 # train freq
+  update_per_collect: 8 # gradient_steps
+  load_checkpoint_path: ''
+  print_collect_result: True
+  print_eval_result: True
+  target_update_interval: 1
+  learning_starts: 20000
+  reward_type: 'sqrt_team'
+  use_action_mask: False
+  n_step: 1
+  tau: 0.001 # soft update para
+  action_num: 27
+  features:
+    max_ball_num: 80
+    max_food_num: 256
+    max_spore_num: 64
+    direction_num: 12
+    spatial_x: 64
+    spatial_y: 64
+  loss_parameters:
+    gamma: 0.99
+  replay_buffer:
+    max_buffer_size: 20000
+    batch_size: 512
+  eps_greedy:
+    type: 'frame'
+    exploration_initial_eps: 0.95
+    exploration_frames: 1000000
+    exploration_final_eps: 0.05
+  optimizer:
+    type: 'adam' # chosen from ['adam','rmsprop']
+    learning_rate: 0.001
+    weight_decay: 0.0 # adam default 0
+  grad_clip:
+    type: 'clip_norm'
+    threshold: 10
+    norm_type: 2
+learner:
+  n_timesteps: 10000000
+  log_show_freq: 100
+  save_checkpoint_freq: 10000
+
+mixer:
+  n_agents: *player_num_per_team
+  state_dim: 352
+  mixing_embed_dim: 128

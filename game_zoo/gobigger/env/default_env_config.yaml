@@ -1,0 +1,28 @@
+env:
+  name: 'gobigger'
+  team_num: 4
+  player_num_per_team: 3
+  step_mul: 2
+  playback_settings:
+    save_video: False
+    save_dir: '.'
+    save_name_prefix: ''
+##following are setting for t2p2
+#  team_num: 2
+#  player_num_per_team: 2
+#  step_mul: 2
+#  map_width: 64
+#  map_height: 64
+#  frame_limit: 3600
+#  manager_settings:
+#    food_manager:
+#        num_init: 260
+#        num_min: 260
+#        num_max: 300
+#    thorns_manager:
+#        num_init: 3
+#        num_min: 3
+#        num_max: 4
+#    player_manager:
+#        ball_settings:
+#            score_init: 13000

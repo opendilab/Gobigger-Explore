@@ -1,0 +1,11 @@
+communication:
+  redis_ip: 'localhost'
+  redis_port: 12345
+  traj_fs_type: 'pickle'
+  redis_pass: '4Str0ngP@ss'
+learner:
+  data:
+    max_buffer_size: 5
+    min_sample_size: 1
+    start_sample_size: 1 # store enough data before sampling, this should be larger than size, else, it will actuall be size
+    max_use: 1 # max_use == 2 means data can be used at most two times

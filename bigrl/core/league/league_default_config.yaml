@@ -1,0 +1,42 @@
+common:
+  experiment_name: bigger_v1
+communication:
+  league_ip: '10.5.39.40' # IMPORTANT, run coordinator on the node you specified
+  league_port: 12227
+  learner_send_train_info_freq: 400
+  learner_send_model_freq: 4
+  actor_model_update_interval: 10 # seconds
+  send_data_num_workers: 3
+  send_data_queue_size: 20
+env:
+  name: 'bigger'
+  save_video: False
+  save_path: ''
+agent:
+  player_id: MP0
+  unroll_len : 10
+league:
+    fake_model: False
+    resume_path: ''
+    save_initial_snapshot : False
+    active_players:
+      checkpoint_path: [ '',]
+      player_id: [ 'MP0',]
+      pipeline: [ 'default' ]
+      one_phase_step: [ '1e8', ]
+      chosen_weight: [1,]
+    hist_players:
+      player_id: [ ]
+      checkpoint_path: []
+      pipeline: [ 'default', ]
+    branch_probs:
+      MainPlayer:
+        sp: 0.3
+        pfsp: 0.4
+        eval: 0.1
+    log_show_freq: 100
+    save_log_freq: 100
+    stat_decay: 0.99
+    stat_warm_up_size: 100
+    show_job: False # for debug use, if true, will print job_info when league give job
+    show_branch: False  # for debug use, if true, will print branch when league give job

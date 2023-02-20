@@ -1,0 +1,90 @@
+var1: &pipeline 'serial_mappo'
+common:
+  experiment_name: gb_serial_mappo
+  seed: 0
+env:
+  name: 'gobigger'
+  team_num: 2
+  player_num_per_team: 2
+  step_mul: 8
+  map_width: 64
+  map_height: 64
+  frame_limit: 3600
+  manager_settings:
+    food_manager:
+        num_init: 260
+        num_min: 260
+        num_max: 300
+    thorns_manager:
+        num_init: 3
+        num_min: 3
+        num_max: 4
+    player_manager:
+        ball_settings:
+            score_init: 13000
+  playback_settings:
+    playback_type: 'by_frame'
+    by_frame:
+      save_frame: False
+collect:
+  env_num: 32
+evaluate:
+  env_num: 5
+  stop_value: 10000000000
+  eval_episodes_num: 1
+  eval_freq: 10000
+agent:
+  batch_size: 256
+  clip_clone_reward: False
+  clip_opponent_reward: False
+  clip_spore_reward: True
+  clone_reward_div_value: 1
+  dist_reward_div_value: 10
+  end_spirit_step: 3000
+  features:
+    direction_num: 12
+    max_ball_num: 80
+    max_food_num: 256
+    max_spore_num: 64
+    spatial_x: 64
+    spatial_y: 64
+  grad_clip:
+    norm_type: 2
+    threshold: 0.5
+    type: clip_norm
+  load_checkpoint_path: ''
+  loss_parameters:
+    advantage_normalization: False
+    clip_range: 0.2
+    clip_range_vf: -1
+    gae_lambda: 0.95
+    gamma: 0.99
+    reward_normalization: True
+  loss_weights:
+    entropy: 0.01
+    policy: 1
+    value: 0.5
+  opponent_reward_div_value: 1
+  optimizer:
+    decay: 0.99
+    eps: 1.0e-05
+    learning_rate: 0.0001
+    momentum: 0
+    type: rmsprop
+    weight_decay: 0.0
+  pipeline: *pipeline
+  print_collect_result: True
+  print_eval_result: True
+  reward_div_value: 0.01
+  reward_type: 'log_reward'
+  rollout_nstep: 128
+  spirit: 1
+  spore_reward_div_value: 10
+  start_spirit_step: 1000
+  update_per_collect: 4
+  use_action_mask: False
+  use_cuda: True
+learner:
+  log_show_freq: 100
+  n_timesteps: 100000000
+  save_checkpoint_freq: 100000

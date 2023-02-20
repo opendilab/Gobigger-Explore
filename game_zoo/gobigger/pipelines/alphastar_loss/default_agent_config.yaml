@@ -1,0 +1,51 @@
+env:
+  name: 'gobigger'
+  team_num: 2
+  player_num_per_team: 2
+  step_mul: 2
+  map_width: 64
+  map_height: 64
+  frame_limit: 3600
+  manager_settings:
+    food_manager:
+        num_init: 260
+        num_min: 260
+        num_max: 300
+    thorns_manager:
+        num_init: 3
+        num_min: 3
+        num_max: 4
+    player_manager:
+        ball_settings:
+            score_init: 13000
+  playback_settings:
+    save_video: False
+    save_dir: '.'
+    save_name_prefix: ''
+agent:
+  use_teacher: False
+  teacher_checkpoint_path: ''
+  checkpoint_name: 'checkpoint/name'
+  spore_reward_div_value: 10
+  opponent_reward_div_value: 1
+  clone_reward_div_value: 1
+  clip_opponent_reward: True
+  clip_clone_reward: True
+  clip_spore_reward: True
+  use_action_mask: True
+  dist_reward_div_value: 10
+  dist_avg_size_div_norm: 8
+  reward_div_value: 0.1
+  reward_type: 'log_reward'
+  spirit: 1
+  start_spirit_step: 1000
+  end_spirit_step: 3000
+  start_player_score: 20000
+  features:
+    max_ball_num: 128
+    max_food_num: 256
+    max_spore_num: 64
+    direction_num: 12
+    spatial_x: 64
+    spatial_y: 64
+    scaled_size: True

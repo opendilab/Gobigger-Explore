@@ -1,0 +1,13 @@
+model:
+  # ===== Encoder =====
+  encoder:
+    obs_shape: [ 1,1,4 ] # Dimensions of the game observation, must be 3D (channel, height, width). For a 1D array, please reshape it to (1, 1, length of array)
+  policy_head:
+    input_size: 128
+    output_size: 2
+    activation: 'relu'
+  # ===== Value =====
+  value_head:
+    input_size: 128  # encoder output size
+    output_size: 1
+    activation: 'relu'

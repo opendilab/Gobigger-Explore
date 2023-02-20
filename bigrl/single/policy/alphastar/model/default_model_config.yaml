@@ -1,0 +1,18 @@
+model:
+  # ===== Encoder =====
+  encoder:
+    obs_shape: [ 4,84,84 ]
+  # ===== Policy =====
+  policy_head:
+    input_size: 3136
+    hidden_size: 164 # encoder output size
+    norm_type: 'none'
+    output_size: 6  # for breakout, this output size should be 4; for pong/qbert/spaceinvaders, 6
+    activation: 'relu'
+  # ===== Value =====
+  value_head:
+    input_size: 3136  # encoder output size
+    hidden_size: 164
+    norm_type: 'none'
+    output_size: 1
+    activation: 'relu'

@@ -1,0 +1,207 @@
+var1: &pipeline 'alphastar_loss'
+var2: &checkpoint_path ''
+var3: &teacher_checkpoint_path ''
+
+common:
+  experiment_name: gb_alphastar_loss
+communication:
+  league_ip: '10.198.34.229' # IMPORTANT, run coordinator on the node you specified
+  league_port: 11400
+  learner_send_train_info_freq: 400
+  learner_send_model_freq: 2
+  actor_model_update_interval: 1 # seconds
+  actor_ask_job_period: 4
+  send_data_num_workers: 1
+  send_data_queue_size: 20
+env:
+  name: 'gobigger'
+  team_num: 2
+  player_num_per_team: 2
+  step_mul: 8
+  map_width: 64
+  map_height: 64
+  frame_limit: 3600
+  manager_settings:
+    food_manager:
+        num_init: 260
+        num_min: 260
+        num_max: 300
+    thorns_manager:
+        num_init: 3
+        num_min: 3
+        num_max: 4
+    player_manager:
+        ball_settings:
+            score_init: 13000
+  playback_settings:
+    playback_type: 'by_frame'
+    by_frame:
+      save_frame: False
+agent:
+  #enable_baselines: [ 'score','spore','team_spore','clone','team_clone','opponent','team_opponent','min_dist']
+  enable_baselines: [ 'score','team_spore','team_clone','team_opponent']
+  use_teacher: False
+  teacher_checkpoint_path: *teacher_checkpoint_path
+  spore_reward_div_value: 10
+  opponent_reward_div_value: 1
+  clone_reward_div_value: 1
+  clip_opponent_reward: True
+  clip_clone_reward: True
+  clip_spore_reward: True
+  use_action_mask: True
+  dist_reward_div_value: 10
+  dist_avg_size_div_norm: 8
+  reward_div_value: 0.1
+  reward_type: 'log_reward'
+  spirit: 1
+  start_spirit_step: 1000
+  end_spirit_step: 3000
+  start_player_score: 13000
+  features:
+    max_ball_num: 80
+    max_food_num: 256
+    max_spore_num: 64
+    direction_num: 12
+    spatial_x: 64
+    spatial_y: 64
+    scaled_size: True
+model:
+  ortho_init: True
+  value_head_init_gains:
+   spore: 0.01
+   team_spore: 0.01
+   clone: 0.01
+   team_clone: 0.01
+   opponent: 0.01
+   team_opponent: 0.01
+   min_dist: 0.01
+   max_dist: 0.01
+actor:
+  local: False
+  debug_mode: False
+  env_num: 32
+  cpu_num: 32
+  save_replay_freq: 50
+  save_to_lustre: False
+  job_type: 'train'
+  local_job:
+    player_id: ['haha', 'hehe']
+    pipeline: ['default', 'default']
+    checkpoint_path: ['', '']
+    send_data_players: []
+  log_show_freq: 1000
+learner:
+  local: False
+  debug_mode: False
+  use_cuda: True
+  use_distributed: True
+  save_to_lustre: True
+  pipeline: *pipeline
+  gamma: 0.99
+  load_path: ''
+  default_value_pretrain_iters: 0
+  remain_value_pretrain_iters: 4000
+  loss_parameters:
+    score_reward_normalization: False
+    fake_reward_normalization: True
+    dist_reward_normalization: True
+    gamma: 0.99
+    lambda: 0.8
+    clip_rho_threshold: 1
+    clip_pg_rho_threshold: 1
+    gammas:
+      score: 0.99
+      spore: 0.992
+      team_spore: 0.992
+      clone: 0.995
+      team_clone: 0.995
+      opponent: 0.992
+      team_opponent: 0.992
+  loss_weights:
+    entropy: 0.01
+    kl: 0.1
+    values:
+      score: 0.5 #10.0
+      spore: 0.01
+      team_spore: 0.05
+      clone: 0.01
+      team_clone: 0.05
+      opponent: 0.01
+      team_opponent: 0.5
+      max_dist: 0.25
+      min_dist: 0.1
+    policies:
+      score: 1
+      spore: 0.02
+      team_spore: 0.1
+      clone: 0.02
+      team_clone: 0.1
+      opponent: 0.02
+      team_opponent: 0.1
+      max_dist: 0.5
+      min_dist: 0.1
+  optimizer:
+    type: 'rmsprop' # chosen from ['adam','rmsprop']
+    learning_rate: 0.0001
+    weight_decay: 0.0
+    eps: 0.00001
+    momentum: 0.         # used in 'adam' 0.999 &'rmsprop' 0
+    decay: 0.99         # used in 'adam' 0.9 &'rmsprop' 0.99
+  grad_clip:
+    type: 'clip_norm'
+    threshold: 1
+    norm_type: 2
+  data:
+    batch_size: 60
+    worker_num: 32
+    unroll_len: 30
+    pin_memory: True
+    fake_dataloader: False
+    max_buffer_size: 600
+    min_sample_size: 100
+    start_sample_size: 1000 # store enough data before sampling, this should be larger than size, else, it will actuall be size
+    max_use: 3 # max_use == 2 means data can be used at most two times
+  log_show_freq: 10
+  save_checkpoint_freq: 2000
+league:
+  resume_path: ''
+  save_initial_snapshot : True
+  active_players:
+    checkpoint_path: [ *checkpoint_path]
+    player_id: [ 'MP0',]
+    pipeline: [ *pipeline, ]
+    one_phase_step: [ '5e8', ]
+    chosen_weight: [1,]
+    config_path: ['']
+  hist_players:
+    player_id: ['bot' ]
+    checkpoint_path: ['none',]
+    config_path: ['']
+    pipeline: [ 'bot', ]
+  branch_probs:
+    MainPlayer:
+      bot: 0
+      sp: 0.5
+      fsp: 0
+      pfsp: 0
+      fsp_1v1: 0.0
+      pfsp_1v1: 0.0
+      pfsp_payoff_1v1: 0.5
+      pfsp_score_1v1: 0.0
+      eval_1v1: 0.1
+      eval_bot_1v1: 0.1
+    HistoricalPlayer:
+      ladder: 1
+      pure_bot: 0
+      diff_all: 0
+  use_player_tb_log: False
+  use_trueskill: False
+  trueskill:
+    show_freq: 100
+    save_freq: 100
+  log_show_freq: 100
+  save_log_freq: 100
+  stat_decay: 0.99
+  stat_warm_up_size: 100
+  show_job: False # for debug use, if true, will print job_info when league give job
+  show_branch: False  # for debug use, if true, will print branch when league give job

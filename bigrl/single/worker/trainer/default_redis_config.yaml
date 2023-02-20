@@ -1,0 +1,83 @@
+var1: &pipeline 'alphastar'
+common:
+  experiment_name: cartpole_exp
+communication:
+  league_ip: '127.0.0.1' # IMPORTANT, run coordinator on the node you specified
+  league_port: 12352
+  learner_send_train_info_freq: 400
+  learner_send_model_freq: 2
+  actor_model_update_interval: 1 # seconds
+  send_data_num_workers: 1
+  send_data_queue_size: 20
+env:
+  name: 'cartpole'
+agent:
+  player_id: MP0
+actor:
+  local: False
+  debug_mode: False
+  env_num: 32
+  cpu_num: 64
+  job_type: 'train'
+  log_show_freq: 100
+  record_decay: 0.99
+  record_warm_up_size: 100
+learner:
+  local: False
+  debug_mode: False
+  use_cuda: True
+  pipeline: *pipeline
+  load_path: ''
+  default_value_pretrain_iters: -1
+  remain_value_pretrain_iters: -1
+  loss_parameters:
+    gamma: 0.99
+    lambda: 0.8
+    clip_rho_threshold: 1
+    clip_pg_rho_threshold: 1
+  loss_weights:
+    policy: 1
+    value: 0.5
+    entropy: 0.00
+  optimizer:
+    type: 'rmsprop' # chosen from ['adam','rmsprop']
+    learning_rate: 0.0005
+    weight_decay: 0.0
+#    eps: 0.0001
+    decay: 0.99         # used in 'adam' 0.9 &'rmsprop' 0.99
+    momentum: 0         # used in 'adam' 0.999 &'rmsprop' 0
+  grad_clip:
+    type: 'clip_norm'
+    threshold: 40
+    norm_type: 2
+  data:
+    batch_size: 40
+    worker_num: 40
+    unroll_len: 20
+    pin_memory: True
+    fake_dataloader: False
+    max_buffer_size: 500
+    min_sample_size: 100
+    start_sample_size: 1000 # store enough data before sampling, this should be larger than size, else, it will actuall be size
+    max_use: 1 # max_use == 2 means data can be used at most two times
+  log_show_freq: 10
+  save_checkpoint_freq: 1000
+league:
+    resume_path: ''
+    save_initial_snapshot : False
+    active_players:
+      checkpoint_path: [ '',]
+      player_id: [ 'MP0',]
+      pipeline: [ *pipeline, ]
+      one_phase_step: [ '1e8', ]
+      chosen_weight: [1,]
+    hist_players:
+      player_id: [ ]
+      checkpoint_path: []
+      pipeline: [ *pipeline, ]
+    log_show_freq: 100
+    save_log_freq: 100
+    stat_decay: 0.99
+    stat_warm_up_size: 100
+    show_job: False # for debug use, if true, will print job_info when league give job
+    show_branch: False  # for debug use, if true, will print branch when league give job
